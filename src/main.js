@@ -4,14 +4,8 @@ import store from './store'
 import App from './App.vue'
 import router from './router'
 
+import '@arcgis/core/assets/esri/themes/dark/main.css'
 import '@/assets/style/global.css'
-
-// import ElementPlus from 'element-plus'
-// import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-
-// app.use(ElementPlus, {
-//   locale: zhCn
-// })
 
 const app = createApp(App)
 

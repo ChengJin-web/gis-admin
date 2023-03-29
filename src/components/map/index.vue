@@ -153,7 +153,7 @@ const createView = (params, type) => {
 
   view.map.add(graphicsLayer)
 
-  view.ui.empty('top-left')
+  //   view.ui.empty('top-left')
 
   // 移除powered by
   view.ui._removeComponents(['attribution'])
@@ -315,7 +315,6 @@ defineExpose({ onSetScale })
   <div class="map-container">
     <div :id="map3D.id" :class="{ hide: mapViewType !== '3D' }"></div>
     <div :id="map2D.id" :class="{ hide: mapViewType !== '2D' }"></div>
-    <!-- <Screenshot @close="onCloseScreenshot" /> -->
   </div>
 </template>
 
@@ -331,13 +330,10 @@ defineExpose({ onSetScale })
   }
 }
 </style>
-<style>
-.esri-view-root {
-  width: 100%;
-  height: 100%;
-}
-.esri-view-surface {
-  width: 100%;
-  height: 100%;
+
+<style lang="scss">
+/* 去掉地图聚焦边框 */
+.esri-view-surface--inset-outline:focus::after {
+  outline: none !important;
 }
 </style>
