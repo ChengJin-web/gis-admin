@@ -320,10 +320,6 @@ defineExpose({ onSetScale })
 </template>
 
 <style lang="scss" scoped>
-// .map-container {
-//   position: relative;
-// }
-
 #map3D,
 #map2D {
   width: 100%;
@@ -333,5 +329,15 @@ defineExpose({ onSetScale })
   &.hide {
     display: none;
   }
+}
+</style>
+<style>
+.esri-view-root {
+  width: 100%;
+  height: 100%;
+}
+.esri-view-surface {
+  width: 100%;
+  height: 100%;
 }
 </style>
