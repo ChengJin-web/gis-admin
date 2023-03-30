@@ -17,7 +17,10 @@
           title="窗口最大化"
           @click="onClickMax"
         ></i>
-        <i v-if="showCloseIcon" class="el-icon-close" title="关闭窗口" @click="onClickClose"></i>
+
+        <el-icon class="el-icon-close" v-if="showCloseIcon" @click="onClickClose"
+          ><CloseBold
+        /></el-icon>
       </span>
     </div>
     <div v-if="showContent" :id="panelId" class="util-panel__content">
@@ -126,7 +129,7 @@ const onClickMax = () => {
     }
 
     .el-icon-close {
-      font-size: 20px;
+      font-size: 16px;
     }
   }
 

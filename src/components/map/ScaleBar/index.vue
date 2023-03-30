@@ -23,7 +23,7 @@
 import { inject } from 'vue'
 import scalebarImg from 'assets/images/scale-bar.jpg'
 
-const props = defineProps({
+defineProps({
   // 是否显示地图底部信息
   mapBottomCoord: {
     type: Boolean,

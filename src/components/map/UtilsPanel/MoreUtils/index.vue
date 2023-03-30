@@ -65,7 +65,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click-util', 'click-custom'])
 
-const { isUtilDisabled, isUtilActive, moreUtilPanel } = utilsPanel()
+const { isUtilDisabled, isUtilActive } = utilsPanel()
 
 const visible = ref(false)
 

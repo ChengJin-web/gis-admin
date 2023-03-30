@@ -8,7 +8,7 @@ import { ElMessage } from 'element-plus'
 const mapRef = ref(null)
 
 // 当前地图视图为2D或者3D
-const mapViewType = ref('3D')
+const mapViewType = ref('2D')
 
 // 当前地图底图类型
 const basemap = ref('hybrid')

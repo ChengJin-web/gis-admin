@@ -52,14 +52,6 @@
           </template>
         </template>
       </template>
-
-      <!-- 自定义常用工具栏 -->
-      <!-- <CustomUtilDialog
-        :visible="customUtilDialog.visible"
-        :util-list="utilList"
-        @close="setCustomUtilDialogVisible(false)"
-        @save="onSaveCustomUtils"
-      /> -->
     </div>
   </div>
 </template>
@@ -68,19 +60,15 @@
 import { defineComponent } from 'vue'
 // 组件
 import MoreUtils from './MoreUtils/index.vue'
-// import CustomUtilDialog from './MoreUtils/CustomUtilDialog.vue'
 import {
   DrawPanel,
   MeasurePanel,
-  SlicePanel,
   DayLightPanel,
   ElevationProfilePanel,
   LineOfSightPanel,
   ScreenshotPanel,
   LocatePanel
 } from './Utils/index.js'
-// // Api
-// import Api from 'api/map/index.js'
 
 export default defineComponent({
   name: 'UtilsPanel',
@@ -89,7 +77,6 @@ export default defineComponent({
     // CustomUtilDialog,
     MeasurePanel,
     DrawPanel,
-    SlicePanel,
     DayLightPanel,
     ElevationProfilePanel,
     LineOfSightPanel,
@@ -109,7 +96,7 @@ import { getLocalS } from '@/utils'
 
 const emit = defineEmits(['open-full-screen-window'])
 
-const { store, dispatchMapEvent, showDevMessage } = common()
+const { store, dispatchMapEvent } = common()
 const { isUtilDisabled, isUtilActive } = utilsPanel()
 
 // 获取顶级组件传递的值：当前地图视图是2D或者3D
@@ -145,7 +132,6 @@ const panelListLoading = ref(false)
 
 // 工具面板列表
 const panelList = ref([
-  // json内容示例
   // {
   //   // 对应组件
   //   component: "MeasurePanel",
@@ -239,55 +225,6 @@ onMounted(() => {
           eventSuffix: 'Locate',
           panelID: 'locatePanel',
           enable2D: true,
-          enable3D: true,
-          fullScreen: false
-        }
-      ]
-    },
-    {
-      title: '三维工具',
-      children: [
-        {
-          component: 'LineOfSightPanel',
-          classStyles: 'iconfont icon-yanjing',
-          utilName: '视线',
-          utilActive: false,
-          eventSuffix: 'LineOfSight',
-          panelID: 'lineOfSightPanel',
-          enable2D: false,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'SlicePanel',
-          classStyles: 'iconfont icon-poumianfenxi',
-          utilName: '剖切',
-          utilActive: false,
-          eventSuffix: 'Slice',
-          panelID: 'slicePanel',
-          enable2D: false,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'ElevationProfilePanel',
-          classStyles: 'iconfont icon-poumianfenxi1',
-          utilName: '高程剖面',
-          utilActive: false,
-          eventSuffix: 'ElevationProfile',
-          panelID: 'elevationProfilePanel',
-          enable2D: false,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'DayLightPanel',
-          classStyles: 'iconfont icon-rizhao',
-          utilName: '日照',
-          utilActive: false,
-          eventSuffix: 'DayLight',
-          panelID: 'dayLightPanel',
-          enable2D: false,
           enable3D: true,
           fullScreen: false
         }
