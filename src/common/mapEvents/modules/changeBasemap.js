@@ -44,7 +44,8 @@ export default {
         break
       case 'terrain':
         view.map.findLayerById(MAP_TERRAIN_BASEMAP_GROUP_LAYER).visible = true
-        ElMessage.success('已将地图比例调整至最佳比例 1:30000')
+        // ElMessage.success('已将地图比例调整至最佳比例 1:30000')
+        ElMessage('已将地图比例调整至最佳比例 1:30000')
         break
       default:
         console.log('basemap is error')
