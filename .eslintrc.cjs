@@ -9,7 +9,8 @@ module.exports = {
     '@vue/eslint-config-prettier/skip-formatting'
   ],
   rules: {
-    'vue/multi-word-component-names': 'off'
+    'vue/multi-word-component-names': 'off',
+    'no-loss-of-precision': 'off'
   },
   parserOptions: {
     ecmaVersion: 'latest'
