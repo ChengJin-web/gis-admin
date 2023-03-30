@@ -21,6 +21,9 @@ const useMapStore = defineStore('map', {
   actions: {
     changeMapEvent(mapEvent) {
       this.mapEvent = mapEvent
+    },
+    setStartScreenshot(startScreenshot) {
+      this.startScreenshot = startScreenshot
     }
   }
 })

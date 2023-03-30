@@ -65,7 +65,7 @@ const onClose = () => {
 
 // 开启截图
 const onStartScreenshot = () => {
-  store.dispatch('map/setStartScreenshot', true)
+  mapStore.setStartScreenshot(true)
   dispatchMapEvent('onScreenShot')
 }
 </script>

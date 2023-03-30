@@ -1,23 +1,21 @@
 <template>
-  <div>
-    <div id="screenshotContainer" class="screenshot hide">
-      <img class="screenshot-img" />
-      <div class="screenshot-input mt-20">
-        <label class="text">在图片中添加文字: </label>
-        <el-input
-          id="screenshotInput"
-          v-model="text"
-          style="width: 335px"
-          placeholder="请输入文字"
-        ></el-input>
-        <div>
-          <el-button id="screenshotDownloadBtn" type="primary">下载图片</el-button>
-          <el-button id="closeBtn" @click="onClose">取消截图</el-button>
-        </div>
+  <div id="screenshotContainer" class="screenshot hide">
+    <img class="screenshot-img" />
+    <div class="screenshot-input mt-20">
+      <label class="text">在图片中添加文字: </label>
+      <el-input
+        id="screenshotInput"
+        v-model="text"
+        style="width: 335px"
+        placeholder="请输入文字"
+      ></el-input>
+      <div>
+        <el-button id="screenshotDownloadBtn" type="primary">下载图片</el-button>
+        <el-button id="closeBtn" @click="onClose">取消截图</el-button>
       </div>
     </div>
-    <div id="maskDiv" class="hide screenshotCursor"></div>
   </div>
+  <div id="maskDiv" class="hide screenshotCursor"></div>
 </template>
 
 <script setup>

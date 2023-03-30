@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, watch, inject } from 'vue'
+// import { useMapStore } from '@/store'
 
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
@@ -13,7 +14,9 @@ import mapEvents from '@/common/mapEvents/index.js'
 import map from '@/common/map/index.js'
 import layers from '@/common/map/layers.js'
 
-const { mapEvent, mapCenterPoint, mapViewConfig } = map()
+// const mapStore = useMapStore()
+
+const { mapStore, mapEvent, mapCenterPoint, mapViewConfig } = map()
 
 const { imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer, graphicsLayer } =
   layers()
@@ -46,6 +49,7 @@ watch(
       return events.forEach((e) => {
         const { event, data } = e
 
+        console.log(event, data)
         currentMapConfig = map2D
 
         mapEvents()[event](currentMapConfig.view, data, mapViewType.value)
@@ -127,6 +131,22 @@ const createView = (params) => {
 
 // 地图鼠标/键盘事件
 const setViewMouseKeyEvent = (view) => {
+  // 2D视图下，不可以用WASD控制方向
+  view.on('key-down', (e) => {
+    if (mapViewType.value == '2D') {
+      const forbidKeys = ['a', 's', 'd', 'w', 'A', 'S', 'D', 'W']
+      if (forbidKeys.indexOf(e.key) !== -1) {
+        e.stopPropagation()
+      }
+    }
+  })
+
+  // view.on('drag', (e) => {
+  //   if (mapViewType.value == '3D') {
+  //     const { tilt, heading } = view.camera
+  //     changeCoordInfoTiltHeading(tilt, heading)
+  //   }
+  // })
   // 鼠标移动
   view.on('pointer-move', (e) => {
     let point = view.toMap({ x: e.x, y: e.y })
@@ -156,7 +176,7 @@ const onSetScale = (scale) => {
 // 关闭截图功能
 const onCloseScreenshot = () => {
   currentMapConfig.view.container.classList.remove('screenshotCursor')
-  // store.dispatch("map/setStartScreenshot", false);
+  mapStore.setStartScreenshot(false)
 }
 
 // 暴露方法给父组件调用
@@ -166,8 +186,12 @@ defineExpose({ onSetScale })
 <template>
   <div class="map-container">
     <div :id="map2D.id" :class="{ hide: mapViewType !== '2D' }"></div>
-    <Screenshot @close="onCloseScreenshot" />
+
+    <!-- <div style="position: absolute">dasdadad</div> -->
+    <!-- <Screenshot @close="onCloseScreenshot" /> -->
   </div>
+  <Screenshot @close="onCloseScreenshot" />
+  <!-- <div style="position: absolute">dasdadad</div> -->
 </template>
 
 <style lang="scss" scoped>
@@ -189,5 +213,32 @@ defineExpose({ onSetScale })
 /* 去掉地图聚焦边框 */
 .esri-view-surface--inset-outline:focus::after {
   outline: none !important;
+}
+
+.esri-ui-bottom-right {
+  right: 8px !important;
+  bottom: 15px !important;
+}
+
+.esri-ui-corner {
+  .esri-component {
+    border-radius: 4px !important;
+    overflow: hidden;
+    // box-shadow: $map-box-shadow !important;
+    font-weight: bold !important;
+    color: #666666 !important;
+  }
+}
+
+.esri-zoom {
+  .esri-widget--button {
+    height: 30px !important;
+    width: 30px !important;
+    font-weight: bold;
+    &:last-child {
+      border-top: 1px dashed #e7e7e7 !important;
+      color: #c7c7c7 !important;
+    }
+  }
 }
 </style>

@@ -70,7 +70,7 @@ function downloadImage(filename, dataUrl) {
   }
 }
 
-// hide the print preview html element on click
+// hide the print preview html element on click / 隐藏打印预览HTML元素单击
 function setMaskPosition(area) {
   const maskDiv = document.getElementById('maskDiv')
 
@@ -135,10 +135,10 @@ export default {
 
       // 监听截图
       dragHandler = view.on('drag', (event) => {
-        // prevent navigation in the view
+        // prevent navigation in the view / 禁止在视图中导航
         event.stopPropagation()
 
-        // when the user starts dragging or is dragging
+        // when the user starts dragging or is dragging /当用户开始拖动或正在拖动时
         if (event.action !== 'end') {
           // calculate the extent of the area selected by dragging the cursor
           const xmin = clamp(Math.min(event.origin.x, event.x), 0, view.width)
@@ -187,9 +187,9 @@ export default {
         }
       })
     } else {
-      if (screenshotBtn) {
-        screenshotBtn.classList.remove('is-active')
-      }
+      // if (screenshotBtn) {
+      //   screenshotBtn.classList.remove('is-active')
+      // }
 
       dragHandler.remove()
       setMaskPosition(null)

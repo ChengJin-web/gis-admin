@@ -1,7 +1,7 @@
 <template>
   <UtilPanel
     width="365px"
-    :title="`${panel.utilName}工具1`"
+    :title="`${panel.utilName}工具`"
     :panel-id="panelID"
     :show-help-icon="false"
     @on-click-close="onClose"
