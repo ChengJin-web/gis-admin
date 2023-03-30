@@ -11,21 +11,21 @@ export default {
   onRotate: (view, data) => {
     // console.log(view.camera.heading, data);
 
-    const { angle } = data;
+    const { angle } = data
 
     if (!angle && angle !== 0) {
-      console.log("缺少旋转角度");
-      return false;
+      console.log('缺少旋转角度')
+      return false
     }
 
     view
       .goTo({
-        heading: -angle,
+        heading: -angle
       })
       .catch((error) => {
-        if (error.name != "AbortError") {
-          console.error(error);
+        if (error.name != 'AbortError') {
+          console.error(error)
         }
-      });
-  },
-};
+      })
+  }
+}

@@ -8,24 +8,24 @@ export default {
    * @param {*} data 传递数据
    */
   onClearScreen: (view, data) => {
-    console.log("点击了清屏按钮", data);
+    console.log('点击了清屏按钮', data)
 
     if (data.store) {
-      const { store } = data;
+      const { store } = data
       // 清除截图和坐标拾取
-      store.dispatch("map/setStartGetLocateCoord", false);
-      store.dispatch("map/setStartScreenshot", false);
+      store.dispatch('map/setStartGetLocateCoord', false)
+      store.dispatch('map/setStartScreenshot', false)
     }
 
-    view.graphics.removeAll();
+    view.graphics.removeAll()
 
     if (view.map.layers && view.map.layers.length) {
-      const layers = view.map.layers.items;
+      const layers = view.map.layers.items
       layers.forEach(function (layer) {
-        if (layer.type === "graphics") {
-          layer.graphics.removeAll();
+        if (layer.type === 'graphics') {
+          layer.graphics.removeAll()
         }
-      });
+      })
     }
-  },
-};
+  }
+}

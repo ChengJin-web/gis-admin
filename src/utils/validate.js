@@ -5,7 +5,7 @@
  * @returns {Boolean}
  */
 export function isExternal(path) {
-  return /^(https?:|mailto:|tel:)/.test(path);
+  return /^(https?:|mailto:|tel:)/.test(path)
 }
 
 /**
@@ -15,8 +15,9 @@ export function isExternal(path) {
  * @returns {Boolean}
  */
 export function validURL(url) {
-  const reg = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
-  return reg.test(url);
+  const reg =
+    /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/
+  return reg.test(url)
 }
 
 /**
@@ -26,8 +27,8 @@ export function validURL(url) {
  * @returns {Boolean}
  */
 export function validLowerCase(str) {
-  const reg = /^[a-z]+$/;
-  return reg.test(str);
+  const reg = /^[a-z]+$/
+  return reg.test(str)
 }
 
 /**
@@ -37,8 +38,8 @@ export function validLowerCase(str) {
  * @returns {Boolean}
  */
 export function validUpperCase(str) {
-  const reg = /^[A-Z]+$/;
-  return reg.test(str);
+  const reg = /^[A-Z]+$/
+  return reg.test(str)
 }
 
 /**
@@ -48,8 +49,8 @@ export function validUpperCase(str) {
  * @returns {Boolean}
  */
 export function validAlphabets(str) {
-  const reg = /^[A-Za-z]+$/;
-  return reg.test(str);
+  const reg = /^[A-Za-z]+$/
+  return reg.test(str)
 }
 
 /**
@@ -59,8 +60,9 @@ export function validAlphabets(str) {
  * @returns {Boolean}
  */
 export function validEmail(email) {
-  const reg = /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return reg.test(email);
+  const reg =
+    /^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return reg.test(email)
 }
 
 /**
@@ -70,8 +72,8 @@ export function validEmail(email) {
  * @returns {Boolean}
  */
 export function validMobile(mobile) {
-  const reg = /^1(3|4|5|7|8|9)\d{9}$/;
-  return reg.test(mobile);
+  const reg = /^1(3|4|5|7|8|9)\d{9}$/
+  return reg.test(mobile)
 }
 
 /**
@@ -81,8 +83,9 @@ export function validMobile(mobile) {
  * @returns {Boolean}
  */
 export function validPhone(phone) {
-  const reg = /^(1\d{10}$)|(((400)-(\d{3})-(\d{4}))|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{3,7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/;
-  return reg.test(phone);
+  const reg =
+    /^(1\d{10}$)|(((400)-(\d{3})-(\d{4}))|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{3,7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)$/
+  return reg.test(phone)
 }
 
 /**
@@ -92,8 +95,8 @@ export function validPhone(phone) {
  * @returns {Boolean}
  */
 export function validPassword(password) {
-  const reg = /(?=.*[0-9])(?=.*[a-zA-Z]).{6,16}/;
-  return reg.test(password);
+  const reg = /(?=.*[0-9])(?=.*[a-zA-Z]).{6,16}/
+  return reg.test(password)
 }
 
 /**
@@ -104,7 +107,7 @@ export function validPassword(password) {
  * @returns {Boolean}
  */
 export function isEqual(str1, str2) {
-  return str1 === str2;
+  return str1 === str2
 }
 
 /**
@@ -114,10 +117,10 @@ export function isEqual(str1, str2) {
  * @returns {Boolean}
  */
 export function isString(str) {
-  if (typeof str === "string" || str instanceof String) {
-    return true;
+  if (typeof str === 'string' || str instanceof String) {
+    return true
   }
-  return false;
+  return false
 }
 
 /**
@@ -127,10 +130,10 @@ export function isString(str) {
  * @returns {Boolean}
  */
 export function isArray(arg) {
-  if (typeof Array.isArray === "undefined") {
-    return Object.prototype.toString.call(arg) === "[object Array]";
+  if (typeof Array.isArray === 'undefined') {
+    return Object.prototype.toString.call(arg) === '[object Array]'
   }
-  return Array.isArray(arg);
+  return Array.isArray(arg)
 }
 
 /**
@@ -141,8 +144,8 @@ export function isArray(arg) {
  * @returns {Boolean}
  */
 export function validPostCode(postCode) {
-  const reg = /[1-9]\d{5}(?!\d)/;
-  return reg.test(postCode);
+  const reg = /[1-9]\d{5}(?!\d)/
+  return reg.test(postCode)
 }
 
 /**
@@ -153,8 +156,9 @@ export function validPostCode(postCode) {
  * @returns {Boolean}
  */
 export function validIDcard(idcard) {
-  const reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-  return reg.test(idcard);
+  const reg =
+    /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
+  return reg.test(idcard)
 }
 
 /**
@@ -165,6 +169,6 @@ export function validIDcard(idcard) {
  * @returns {Boolean}
  */
 export function validRealName(realName) {
-  const reg = /^[\u4E00-\u9FA5](([\u4E00-\u9FA5]|·(?!·))){0,18}[\u4E00-\u9FA5]$/;
-  return reg.test(realName);
+  const reg = /^[\u4E00-\u9FA5](([\u4E00-\u9FA5]|·(?!·))){0,18}[\u4E00-\u9FA5]$/
+  return reg.test(realName)
 }

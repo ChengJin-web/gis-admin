@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "copy": "ncp ./node_modules/@arcgis/core/assets ./public/assets",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -25,7 +24,6 @@
     "@vue/eslint-config-prettier": "^7.1.0",
     "eslint": "^8.34.0",
     "eslint-plugin-vue": "^9.9.0",
-    "ncp": "^2.0.0",
     "prettier": "^2.8.4",
     "sass": "^1.60.0",
     "unplugin-auto-import": "^0.15.2",
