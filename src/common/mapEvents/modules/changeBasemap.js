@@ -13,10 +13,10 @@ import { ElMessage } from 'element-plus'
 export default {
   /**
    * 切换底图
-   *
    * @param {*} view 视图
    * @param {*} data 传递数据
    */
+
   onSwitchBasemap: (view, data) => {
     const { basemap } = data
     console.log(`点击切换底图：${basemap}`)

@@ -1,8 +1,8 @@
-/*
- * 模块 : 地图图层相关
- * 作者 : 罗永梅（381612175@qq.com）
- * 日期 : 2021-08-18
- * 版本 : version 1.0
+/**
+ * @moduleName 底图配置
+ * @author Jin Cheng
+ * @description 地图底图相关配置
+ * @date 2023-03-30
  */
 
 // 配置
