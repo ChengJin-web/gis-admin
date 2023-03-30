@@ -21,21 +21,21 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/runtime-core";
+import { ref } from 'vue'
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close'])
 
-const text = ref("");
+const text = ref('')
 
 // 关闭
 const onClose = () => {
-  text.value = "";
+  text.value = ''
 
-  const screenshotContainer = document.getElementById("screenshotContainer");
-  screenshotContainer.classList.add("hide");
+  const screenshotContainer = document.getElementById('screenshotContainer')
+  screenshotContainer.classList.add('hide')
 
-  emit("close");
-};
+  emit('close')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -64,7 +64,7 @@ const onClose = () => {
 #maskDiv {
   position: absolute;
   background: rgba(255, 255, 255, 0.3);
-  border: 2px dashed $primary-color;
+  border: 2px dashed var(--primaryColor, #168bf2);
 
   &.hide {
     display: none;

@@ -28,8 +28,8 @@
 </template>
 
 <script setup>
-import { inject } from '@vue/runtime-core'
-import common from 'common'
+import { inject } from 'vue'
+import common from '@/common'
 import Compass from './Compass.vue'
 
 const props = defineProps({

@@ -1,6 +1,8 @@
 <script setup>
 import { ref, provide, reactive } from 'vue'
 import ArcMap from '@/components/map/index.vue'
+import UtilsPanel from '@/components/map/UtilsPanel/index.vue'
+import MapInfo from '@/components/map/MapInfo/index.vue'
 import { ElMessage } from 'element-plus'
 // 地图实例
 const mapRef = ref(null)
@@ -28,6 +30,22 @@ const coordInfo = reactive({
   locate: ''
 })
 
+// 卷帘工具
+const swipePanel = ref({
+  visible: false,
+  panel: null,
+  index: -1,
+  minimize: false
+})
+
+// 分屏工具
+const splitScreen = ref({
+  visible: false,
+  panel: null,
+  index: -1,
+  minimize: false
+})
+
 // 是否折叠地图资源面板
 const foldMapInfoPanel = ref(false)
 
@@ -42,6 +60,24 @@ const onMapSetView = ({ scale }) => {
   ElMessage.success(`已将地图比例调整至1:${scale}`)
   // 调用子组件方法
   mapRef.value.onSetScale(scale)
+}
+
+// 打开全屏窗口
+const onOpenFullscreenWindow = ({ visible, panel, index }) => {
+  console.log('打开全屏弹窗')
+
+  const val = { visible, panel, index, minimize: false }
+
+  switch (panel.component) {
+    case 'SwipePanel':
+      swipePanel.value = val
+      break
+    case 'SplitScreen':
+      splitScreen.value = val
+      break
+    default:
+      console.log('component is error')
+  }
 }
 
 // 顶级组件通过provide传递给子孙组件
@@ -62,5 +98,8 @@ provide('getFixedHeader', false)
       @click-fold="onFoldMapInfoPanel"
       @map-set-view-scale="onMapSetView"
     />
+
+    <!-- 工具栏 -->
+    <UtilsPanel ref="utilsPanelRef" @open-full-screen-window="onOpenFullscreenWindow" />
   </div>
 </template>

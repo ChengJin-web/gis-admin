@@ -16,10 +16,7 @@
           <div>
             <div class="title">分屏选择</div>
             <ul class="split-buttons">
-              <template
-                v-for="(splitButton, i) in splitButtons"
-                :key="'split-button' + i"
-              >
+              <template v-for="(splitButton, i) in splitButtons" :key="'split-button' + i">
                 <li
                   class="split-buttons-item"
                   :class="splitButton.active ? 'is-active' : ''"
@@ -30,7 +27,7 @@
                       class="button"
                       :style="{
                         width: getSplitScreenWidth(i + 1, j),
-                        height: getSplitScreenHeight(i + 1, j),
+                        height: getSplitScreenHeight(i + 1, j)
                       }"
                     >
                       {{ j + 1 }}
@@ -52,10 +49,7 @@
             <div>
               <el-form label-width="80px">
                 <template v-for="(item, index) in viewWin" :key="'view-win' + index">
-                  <el-form-item
-                    v-if="index < viewVisibleNum"
-                    :label="`视窗【${index + 1}】`"
-                  >
+                  <el-form-item v-if="index < viewVisibleNum" :label="`视窗【${index + 1}】`">
                     <el-select
                       v-model="item.layer"
                       style="width: 100%"
@@ -84,7 +78,7 @@
               :style="{
                 width: getSplitScreenWidth(viewVisibleNum, index),
                 height: getSplitScreenHeight(viewVisibleNum, index),
-                display: getSplitScreenDisplay(index),
+                display: getSplitScreenDisplay(index)
               }"
             >
               <div class="map-view__map" :id="`splitScreenMapView${index + 1}`"></div>
@@ -114,120 +108,112 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  reactive,
-  inject,
-  onMounted,
-  nextTick,
-} from "@vue/runtime-core";
+import { ref, reactive, inject, onMounted, nextTick } from 'vue'
 // Arcgis
-import Map from "@arcgis/core/Map";
-import MapView from "@arcgis/core/views/MapView";
-import TileLayer from "@arcgis/core/layers/TileLayer";
+import Map from '@arcgis/core/Map'
+import MapView from '@arcgis/core/views/MapView'
+import TileLayer from '@arcgis/core/layers/TileLayer'
 // 组件
-import MaxScreenPanel from "components/common/MaxScreenPanel/index.vue";
-import UtilPanel from "components/common/UtilPanel/index.vue";
-import CollapsePanel from "components/common/CollapsePanel/index.vue";
+import MaxScreenPanel from '@/components/common/MaxScreenPanel/index.vue'
+import UtilPanel from '@/components/common/UtilPanel/index.vue'
+import CollapsePanel from '@/components/common/CollapsePanel/index.vue'
 // 通用模块
-import maxScreenPanel from "common/maxScreenPanel.js";
+import maxScreenPanel from '@/common/maxScreenPanel.js'
 // 地图
-import map from "common/map/index.js";
-import layers from "common/map/layers.js";
+import map from '@/common/map/index.js'
+import layers from '@/common/map/layers.js'
 
 const props = defineProps({
   // 面板
   panel: {
     type: Object,
-    default: () => ({}),
+    default: () => ({})
   },
   // 当前面板索引在panelList中的索引
   index: {
     type: Number,
-    default: 0,
+    default: 0
   },
   // 是否最小化
   minimize: {
     type: Boolean,
-    default: false,
-  },
-});
+    default: false
+  }
+})
 
-const emit = defineEmits(["close", "minimize", "maximize"]);
+const emit = defineEmits(['close', 'minimize', 'maximize'])
 
-const { onClosePanel, onMinimizePanel, onMaximizePanel } = maxScreenPanel();
+const { onClosePanel, onMinimizePanel, onMaximizePanel } = maxScreenPanel()
 
-const { mapCenterPoint, mapViewConfig } = map();
+const { mapCenterPoint, mapViewConfig } = map()
 
-const { imageBasemapLayer } = layers();
+const { imageBasemapLayer } = layers()
 
 // 是否显示系统固定头部
-const fixedHeader = inject("getFixedHeader");
+const fixedHeader = inject('getFixedHeader')
 
 // 地图ID
-const mapID = "splitScreenMapView";
+const mapID = 'splitScreenMapView'
 // 地图视图
-const viewCount = ref(new Array(6).fill(0));
+const viewCount = ref(new Array(6).fill(0))
 // 图层资源
 const viewLayers = [
   {
-    id: "ChinaOnlineStreetPurplishBlue",
-    title: "蓝黑色中文不含兴趣点版中国基础地图",
-    url:
-      "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+    id: 'ChinaOnlineStreetPurplishBlue',
+    title: '蓝黑色中文不含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer'
   },
   {
-    id: "ChinaBoundaryLine",
-    title: "中国边界线",
-    url:
-      "http://map.geoq.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer",
+    id: 'ChinaBoundaryLine',
+    title: '中国边界线',
+    url: 'http://map.geoq.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer'
   },
   {
-    id: "ChinaOnlineCommunity",
-    title: "彩色中文含兴趣点版中国基础地图",
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+    id: 'ChinaOnlineCommunity',
+    title: '彩色中文含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer'
   },
   {
-    id: "ChinaOnlineCommunityENG",
-    title: "彩色英文含兴趣点版中国基础地图",
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunityENG/MapServer",
+    id: 'ChinaOnlineCommunityENG',
+    title: '彩色英文含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunityENG/MapServer'
   },
   {
-    id: "ChinaOnlineStreetWarm",
-    title: "暖色中文不含兴趣点版中国基础地图",
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer",
+    id: 'ChinaOnlineStreetWarm',
+    title: '暖色中文不含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer'
   },
   {
-    id: "ChinaOnlineStreetGray",
-    title: "灰色中文不含兴趣点版中国基础地图",
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
-  },
-];
+    id: 'ChinaOnlineStreetGray',
+    title: '灰色中文不含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer'
+  }
+]
 // 可见视图数
-const viewVisibleNum = ref(1);
+const viewVisibleNum = ref(1)
 // 视图群组，存储视图对象
-const viewGroup = {};
+const viewGroup = {}
 // 视窗
 const viewWin = reactive([
   {
-    layer: "ChinaOnlineStreetPurplishBlue",
+    layer: 'ChinaOnlineStreetPurplishBlue'
   },
   {
-    layer: "ChinaBoundaryLine",
+    layer: 'ChinaBoundaryLine'
   },
   {
-    layer: "ChinaOnlineCommunity",
+    layer: 'ChinaOnlineCommunity'
   },
   {
-    layer: "ChinaOnlineCommunityENG",
+    layer: 'ChinaOnlineCommunityENG'
   },
   {
-    layer: "ChinaOnlineStreetWarm",
+    layer: 'ChinaOnlineStreetWarm'
   },
   {
-    layer: "ChinaOnlineStreetGray",
-  },
-]);
+    layer: 'ChinaOnlineStreetGray'
+  }
+])
 
 // 分屏按钮
 const splitButtons = reactive([
@@ -236,23 +222,23 @@ const splitButtons = reactive([
   { active: false },
   { active: false },
   { active: false },
-  { active: false },
-]);
+  { active: false }
+])
 
 // 是否第一次加载
-let firstLoad = true;
+let firstLoad = true
 
 onMounted(() => {
-  splitButtons[0].active = true;
-});
+  splitButtons[0].active = true
+})
 
 // 改变分屏选择
 const onClickSplitButton = (index) => {
-  splitButtons.forEach((e) => (e.active = false));
-  splitButtons[index].active = true;
+  splitButtons.forEach((e) => (e.active = false))
+  splitButtons[index].active = true
 
-  viewVisibleNum.value = index + 1;
-};
+  viewVisibleNum.value = index + 1
+}
 
 // 清除图层
 const removeLayer = (index) => {
@@ -260,7 +246,7 @@ const removeLayer = (index) => {
   // if (view) {
   //   view.map.removeAll();
   // }
-};
+}
 
 /**
  * 初始化地图
@@ -268,63 +254,63 @@ const removeLayer = (index) => {
  * @param {*} index 当前分屏下标
  */
 const initMap = (index) => {
-  let view = viewGroup[index];
-  const layerID = viewWin[index].layer;
+  let view = viewGroup[index]
+  const layerID = viewWin[index].layer
 
   if (!view) {
     let map = new Map({
-      basemap: "satellite",
-    });
+      basemap: 'satellite'
+    })
 
     view = new MapView({
       map,
       container: `${mapID}${index + 1}`,
       center: mapCenterPoint,
-      zoom: 14,
-    });
+      zoom: 14
+    })
 
-    view.ui.move("zoom", "bottom-right");
+    view.ui.move('zoom', 'bottom-right')
 
     // 移除powered by
-    view.ui._removeComponents(["attribution"]);
+    view.ui._removeComponents(['attribution'])
   }
 
-  getLayer(view.map, layerID);
-  viewGroup[index] = view;
-};
+  getLayer(view.map, layerID)
+  viewGroup[index] = view
+}
 
 // 获取图层
 const getLayer = (map, layerID) => {
   if (!layerID) {
-    return false;
+    return false
   }
 
-  const layerObj = viewLayers.find((e) => e.id === layerID);
-  const layer = map.findLayerById(layerID);
+  const layerObj = viewLayers.find((e) => e.id === layerID)
+  const layer = map.findLayerById(layerID)
   if (!layer) {
-    map.removeAll();
+    map.removeAll()
 
-    const { id, title, url } = layerObj;
+    const { id, title, url } = layerObj
 
     const layer = new TileLayer({
       id,
       title,
-      url,
-    });
+      url
+    })
 
-    map.add(layer);
+    map.add(layer)
   }
-};
+}
 
 // 获取视图标题
 const getViewTitle = (index) => {
-  const layerID = viewWin[index].layer;
-  const layerObj = viewLayers.find((e) => e.id === layerID);
-  if(layerID){
-    return `视窗【${index + 1}】-${layerObj.title ? layerObj.title : '暂无标题'}`;
+  const layerID = viewWin[index].layer
+  const layerObj = viewLayers.find((e) => e.id === layerID)
+  if (layerID) {
+    return `视窗【${index + 1}】-${layerObj.title ? layerObj.title : '暂无标题'}`
   }
-  return `视窗【${index + 1}】`;
-};
+  return `视窗【${index + 1}】`
+}
 
 /**
  * 变更视图图层
@@ -332,9 +318,9 @@ const getViewTitle = (index) => {
  * @param {*} index 当前分屏下标
  */
 const changeViewLayer = (index) => {
-  const layerID = viewWin[index].layer;
-  getLayer(viewGroup[index].map, layerID);
-};
+  const layerID = viewWin[index].layer
+  getLayer(viewGroup[index].map, layerID)
+}
 
 /**
  * 获取分屏宽度
@@ -345,29 +331,29 @@ const changeViewLayer = (index) => {
 const getSplitScreenWidth = (screenNum, index) => {
   // 单独处理
   if (screenNum === 1 || screenNum === 2) {
-    return `${100 / screenNum}%`;
+    return `${100 / screenNum}%`
   }
 
   // 双数
   if (screenNum % 2 === 0) {
     if (screenNum % 3 === 0) {
-      return `${100 / (screenNum / 3)}%`;
+      return `${100 / (screenNum / 3)}%`
     }
-    return `${100 / (screenNum / 2)}%`;
+    return `${100 / (screenNum / 2)}%`
   }
   // 单数
   else {
     // 上面一排的数量
-    const topNum = (screenNum - 1) / 2;
-    const bottomNum = topNum + 1;
+    const topNum = (screenNum - 1) / 2
+    const bottomNum = topNum + 1
 
     if (index < topNum) {
-      return `${100 / topNum}%`;
+      return `${100 / topNum}%`
     } else {
-      return `${100 / bottomNum}%`;
+      return `${100 / bottomNum}%`
     }
   }
-};
+}
 
 /**
  * 获取分屏宽度
@@ -378,21 +364,21 @@ const getSplitScreenWidth = (screenNum, index) => {
 const getSplitScreenHeight = (screenNum, index) => {
   // 单独处理
   if (screenNum === 1 || screenNum === 2) {
-    return "100%";
+    return '100%'
   }
 
   // 双数
   else if (screenNum % 2 === 0) {
     if (screenNum % 3 === 0) {
-      return `${100 / 3}%`;
+      return `${100 / 3}%`
     }
-    return "50%";
+    return '50%'
   }
   // 单数
   else {
-    return "50%";
+    return '50%'
   }
-};
+}
 
 /**
  * 获取分屏显示样式
@@ -401,26 +387,26 @@ const getSplitScreenHeight = (screenNum, index) => {
  */
 const getSplitScreenDisplay = (index) => {
   nextTick(() => {
-    initMap(index);
-  });
+    initMap(index)
+  })
 
-  return index < viewVisibleNum.value ? "block" : "none";
-};
+  return index < viewVisibleNum.value ? 'block' : 'none'
+}
 
 // 关闭面板
 const onClose = () => {
-  onClosePanel(emit, props);
-};
+  onClosePanel(emit, props)
+}
 
 // 最小化
 const onMinimize = () => {
-  onMinimizePanel(emit, props);
-};
+  onMinimizePanel(emit, props)
+}
 
 // 最大化
 const onMaximize = () => {
-  onMaximizePanel(emit, props);
-};
+  onMaximizePanel(emit, props)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -430,7 +416,7 @@ const onMaximize = () => {
     color: #666;
     font-weight: bold;
     padding-bottom: 10px;
-    border-bottom: $border;
+    border-bottom: 1px solid #e6ebf5;
     margin-bottom: 15px;
   }
 }
@@ -468,7 +454,7 @@ const onMaximize = () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: $border;
+    border: 1px solid #e6ebf5;
     margin: 5px;
     width: 30.5%;
     height: 100px;
@@ -489,12 +475,12 @@ const onMaximize = () => {
     &:hover,
     &.is-active {
       cursor: pointer;
-      border-color: $primary-color;
+      border-color: var(--primaryColor, #168bf2);
       z-index: 2;
 
       .button {
-        color: $primary-color;
-        border-color: $primary-color;
+        color: var(--primaryColor, #168bf2);
+        border-color: var(--primaryColor, #168bf2);
       }
     }
   }

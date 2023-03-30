@@ -21,9 +21,7 @@
             <el-input v-model="posLat" placeholder="请输入纬度"></el-input>
           </el-form-item>
           <el-form-item class="mb-0">
-            <el-button type="primary" style="width: 100%" @click="onLocateTo"
-              >定位到该点</el-button
-            >
+            <el-button type="primary" style="width: 100%" @click="onLocateTo">定位到该点</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -32,111 +30,111 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "@vue/runtime-core";
-import { ElMessage } from "element-plus";
-import UtilPanel from "components/common/UtilPanel/index.vue";
-import common from "common";
-import locateImg from "@/assets/images/locate.png";
+import { ref, computed, watch } from 'vue'
+import { ElMessage } from 'element-plus'
+import UtilPanel from '@/components/common/UtilPanel/index.vue'
+import common from '@/common'
+import locateImg from '@/assets/images/locate.png'
 // 工具
-import { getLocalS } from "utils";
+import { getLocalS } from '@/utils'
 
 const props = defineProps({
   // 面板
   panel: {
     type: Object,
     default: () => ({
-      utilName: "日照",
-    }),
+      utilName: '日照'
+    })
   },
   // 当前面板索引在panelList中的索引
   index: {
     type: Number,
-    default: 0,
+    default: 0
   },
   mapViewType: {
     type: String,
-    default: "3D",
-  },
-});
+    default: '3D'
+  }
+})
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close'])
 
-const { dispatchMapEvent, store } = common();
+const { dispatchMapEvent, store } = common()
 
 // 坐标信息
-const locateData = computed(() => store.getters.locateData);
+const locateData = computed(() => store.getters.locateData)
 // 开始拾取坐标
-const startGetLocateCoord = computed(() => store.getters.startGetLocateCoord);
+const startGetLocateCoord = computed(() => store.getters.startGetLocateCoord)
 
 // 当前面板ID
-const panelID = "locatePanel";
+const panelID = 'locatePanel'
 
-const posLon = ref(0);
-const posLat = ref(0);
+const posLon = ref(0)
+const posLat = ref(0)
 
 watch(
   () => store.getters.locateData,
   (val) => {
-    posLon.value = parseFloat(val.lon).toFixed(5);
-    posLat.value = parseFloat(val.lat).toFixed(5);
+    posLon.value = parseFloat(val.lon).toFixed(5)
+    posLat.value = parseFloat(val.lat).toFixed(5)
   }
-);
+)
 
 // 关闭面板
 const onClose = () => {
-  emit("close", {
+  emit('close', {
     panel: props.panel,
     index: props.index,
     active: false,
-    eventSuffix: "Locate",
-    panelID,
-  });
-};
+    eventSuffix: 'Locate',
+    panelID
+  })
+}
 
 // 定位
 const onLocateTo = () => {
-  if (!posLon.value || !posLat.value || posLon.value == "0" || posLat.value == "0") {
-    ElMessage.warning("请输入完整的非0坐标数值");
-    return;
+  if (!posLon.value || !posLat.value || posLon.value == '0' || posLat.value == '0') {
+    ElMessage.warning('请输入完整的非0坐标数值')
+    return
   }
 
   const data = {
-    title: "定位坐标",
+    title: '定位坐标',
     lon: posLon.value,
     lat: posLat.value,
     symbol: {
-      type: "picture-marker",
+      type: 'picture-marker',
       url: locateImg,
-      width: "40px",
-      height: "40px",
-    },
-  };
+      width: '40px',
+      height: '40px'
+    }
+  }
 
   dispatchMapEvent([
     {
-      event: "onLocateToCoordAndMark",
-      data,
+      event: 'onLocateToCoordAndMark',
+      data
     },
     {
-      event: "onShowCoordMaker",
-      data,
-    },
-  ]);
-};
+      event: 'onShowCoordMaker',
+      data
+    }
+  ])
+}
 
 // 拾取坐标
 const onGetLocate = () => {
-  store.dispatch("map/setStartGetLocateCoord", true);
+  store.dispatch('map/setStartGetLocateCoord', true)
 
-  dispatchMapEvent("onGetLocateCoord", {
-    store,
-  });
-};
+  dispatchMapEvent('onGetLocateCoord', {
+    store
+  })
+}
 
 // 清除所有坐标标记
 const onClearCoordMarker = () => {
-  dispatchMapEvent("onClearCoordMarker");
-};
+  dispatchMapEvent('onClearCoordMarker')
+}
 </script>
 
 <style lang="scss" scoped>
@@ -149,7 +147,7 @@ const onClearCoordMarker = () => {
 .operate-button {
   display: flex;
   justify-content: space-between;
-  border-bottom: $border;
+  border-bottom: 1px solid #e6ebf5;
   padding-bottom: 15px;
 }
 </style>

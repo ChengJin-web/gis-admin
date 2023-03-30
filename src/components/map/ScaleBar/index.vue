@@ -6,17 +6,11 @@
     <span class="scale-bar__text">
       <div>0</div>
       <div>
-        <span v-if="coordInfo.scale < 50000">{{
-          (coordInfo.scale / 100).toFixed(0)
-        }}</span>
-        <span v-if="coordInfo.scale >= 50000">{{
-          (coordInfo.scale / 100000).toFixed(0)
-        }}</span>
+        <span v-if="coordInfo.scale < 50000">{{ (coordInfo.scale / 100).toFixed(0) }}</span>
+        <span v-if="coordInfo.scale >= 50000">{{ (coordInfo.scale / 100000).toFixed(0) }}</span>
       </div>
       <div>
-        <span v-if="coordInfo.scale < 50000"
-          >{{ (coordInfo.scale / 100).toFixed(0) * 2 }} m</span
-        >
+        <span v-if="coordInfo.scale < 50000">{{ (coordInfo.scale / 100).toFixed(0) * 2 }} m</span>
         <span v-if="coordInfo.scale >= 50000"
           >{{ (coordInfo.scale / 100000).toFixed(0) * 2 }} km</span
         >
@@ -26,19 +20,19 @@
 </template>
 
 <script setup>
-import { inject } from "@vue/runtime-core";
-import scalebarImg from "assets/images/scale-bar.jpg";
+import { inject } from 'vue'
+import scalebarImg from 'assets/images/scale-bar.jpg'
 
 const props = defineProps({
   // 是否显示地图底部信息
   mapBottomCoord: {
     type: Boolean,
-    default: true,
-  },
-});
+    default: true
+  }
+})
 
 // 坐标信息
-const coordInfo = inject("getCoordInfo");
+const coordInfo = inject('getCoordInfo')
 </script>
 
 <style lang="scss" scoped>
@@ -50,7 +44,7 @@ const coordInfo = inject("getCoordInfo");
   left: 10px;
   font-size: 12px;
 
-  &.has-bottom-coord{
+  &.has-bottom-coord {
     bottom: 15px;
   }
 

@@ -46,9 +46,7 @@
           :label="titles[1]"
           @change="onChangeCheckBottomDataAll"
         ></el-checkbox>
-        <div class="check-num">
-          {{ bottomDataChecked.length }} / {{ bottomDatas.length }}
-        </div>
+        <div class="check-num">{{ bottomDataChecked.length }} / {{ bottomDatas.length }}</div>
       </div>
       <div class="transfer__content">
         <List
@@ -65,96 +63,96 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "@vue/runtime-core";
-import List from "./List.vue";
+import { ref, onMounted } from 'vue'
+import List from './List.vue'
 // import Draggable from "vuedraggable";
 
 const thisProps = defineProps({
   // 未选中的数据，在上方
   unSelectValues: {
     type: Array,
-    default: [],
+    default: []
   },
   // 选中的数据，在下方
   selectValues: {
     type: Array,
-    default: [],
+    default: []
   },
   // 所有数据
   data: {
     type: Array,
-    default: [],
+    default: []
   },
   // 穿梭器标题
   titles: {
     type: Array,
-    default: ["上方", "下方"],
+    default: ['上方', '下方']
   },
   // 属性
   props: {
     type: Object,
     default: {
-      key: "id",
-      label: "title",
-    },
-  },
-});
+      key: 'id',
+      label: 'title'
+    }
+  }
+})
 
 const emit = defineEmits([
-  "update:un-select-values",
-  "update:select-values",
-  "change",
-  "sort-top",
-  "sort-bottom",
-  "set-layer-visible",
-]);
+  'update:un-select-values',
+  'update:select-values',
+  'change',
+  'sort-top',
+  'sort-bottom',
+  'set-layer-visible'
+])
 
 // 上方数据
-const topDatas = ref([]);
-const topDataCheckedAll = ref(false);
-const topDataChecked = ref([]);
+const topDatas = ref([])
+const topDataCheckedAll = ref(false)
+const topDataChecked = ref([])
 
 // 下方数据
-const bottomDatas = ref([]);
-const bottomDataCheckedAll = ref(false);
-const bottomDataChecked = ref([]);
+const bottomDatas = ref([])
+const bottomDataCheckedAll = ref(false)
+const bottomDataChecked = ref([])
 
 onMounted(() => {
-  handleDatas();
-});
+  handleDatas()
+})
 
 // 处理数据
 const handleDatas = () => {
-  const { selectValues, data, props } = thisProps;
+  const { selectValues, data, props } = thisProps
   if (!selectValues.length) {
-    topDatas.value = JSON.parse(JSON.stringify(...data));
-    bottomDatas.value = [];
+    topDatas.value = JSON.parse(JSON.stringify(...data))
+    bottomDatas.value = []
   } else {
     data.forEach((e) => {
       // 默认全部可见
-      e.visible = true;
+      e.visible = true
 
       // 是否选中数据
       if (selectValues.indexOf(e[props.key]) >= 0) {
-        bottomDatas.value.push(e);
+        bottomDatas.value.push(e)
       } else {
-        topDatas.value.push(e);
+        topDatas.value.push(e)
       }
-    });
+    })
   }
-};
+}
 
 // 全选上方
 const onChangeCheckTopDataAll = (val) => {
-  topDatas.value.forEach((e) => (e.checked = val));
-  topDataChecked.value = val ? [...topDatas.value] : [];
-};
+  topDatas.value.forEach((e) => (e.checked = val))
+  topDataChecked.value = val ? [...topDatas.value] : []
+}
 
 // 全选下方
 const onChangeCheckBottomDataAll = (val) => {
-  bottomDatas.value.forEach((e) => (e.checked = val));
-  bottomDataChecked.value = val ? [...bottomDatas.value] : [];
-};
+  bottomDatas.value.forEach((e) => (e.checked = val))
+  bottomDataChecked.value = val ? [...bottomDatas.value] : []
+}
 
 /**
  * 勾选元素
@@ -163,26 +161,25 @@ const onChangeCheckBottomDataAll = (val) => {
  * @param {*} type 类型  1勾选上方元素 -1勾选下方元素
  */
 const onChangeCheck = (element, type) => {
-  const { props } = thisProps;
+  const { props } = thisProps
 
-  let checkDatas = type === 1 ? [...topDataChecked.value] : [...bottomDataChecked.value];
+  let checkDatas = type === 1 ? [...topDataChecked.value] : [...bottomDataChecked.value]
 
-  const findItemIndex = checkDatas.findIndex((e) => e[props.key] === element[props.key]);
+  const findItemIndex = checkDatas.findIndex((e) => e[props.key] === element[props.key])
   if (element.checked && findItemIndex < 0) {
-    checkDatas.push(element);
+    checkDatas.push(element)
   } else if (!element.checked && findItemIndex >= 0) {
-    checkDatas.splice(findItemIndex, 1);
+    checkDatas.splice(findItemIndex, 1)
   }
 
   if (type === 1) {
-    topDataChecked.value = checkDatas;
-    topDataCheckedAll.value = topDatas.value.length <= checkDatas.length ? true : false;
+    topDataChecked.value = checkDatas
+    topDataCheckedAll.value = topDatas.value.length <= checkDatas.length ? true : false
   } else {
-    bottomDataChecked.value = checkDatas;
-    bottomDataCheckedAll.value =
-      bottomDatas.value.length <= checkDatas.length ? true : false;
+    bottomDataChecked.value = checkDatas
+    bottomDataCheckedAll.value = bottomDatas.value.length <= checkDatas.length ? true : false
   }
-};
+}
 
 /**
  * 移动元素
@@ -190,53 +187,49 @@ const onChangeCheck = (element, type) => {
  * @param {*} type 类型  1移动到上方 -1移动到下方
  */
 const moveTo = (type) => {
-  const { props } = thisProps;
+  const { props } = thisProps
   if (type === 1) {
     bottomDataChecked.value.forEach((e) => {
-      const findItemIndex = bottomDatas.value.findIndex(
-        (d) => d[props.key] === e[props.key]
-      );
+      const findItemIndex = bottomDatas.value.findIndex((d) => d[props.key] === e[props.key])
       if (findItemIndex >= 0) {
-        bottomDatas.value.splice(findItemIndex, 1);
+        bottomDatas.value.splice(findItemIndex, 1)
       }
 
-      e.checked = false;
-      topDatas.value.push(e);
-    });
+      e.checked = false
+      topDatas.value.push(e)
+    })
 
-    bottomDataChecked.value = [];
-    bottomDataCheckedAll.value = false;
+    bottomDataChecked.value = []
+    bottomDataCheckedAll.value = false
   } else {
     topDataChecked.value.forEach((e) => {
-      const findItemIndex = topDatas.value.findIndex(
-        (d) => d[props.key] === e[props.key]
-      );
+      const findItemIndex = topDatas.value.findIndex((d) => d[props.key] === e[props.key])
       if (findItemIndex >= 0) {
-        topDatas.value.splice(findItemIndex, 1);
+        topDatas.value.splice(findItemIndex, 1)
       }
 
-      e.checked = false;
-      bottomDatas.value.push(e);
-    });
+      e.checked = false
+      bottomDatas.value.push(e)
+    })
 
-    topDataChecked.value = [];
-    topDataCheckedAll.value = false;
+    topDataChecked.value = []
+    topDataCheckedAll.value = false
   }
 
-  upadteValue();
-};
+  upadteValue()
+}
 
 // 更新选中数据
 const upadteValue = () => {
-  const { props } = thisProps;
+  const { props } = thisProps
 
-  const unSelectvalues = topDatas.value.map((e) => e[props.key]);
-  const selectValues = bottomDatas.value.map((e) => e[props.key]);
+  const unSelectvalues = topDatas.value.map((e) => e[props.key])
+  const selectValues = bottomDatas.value.map((e) => e[props.key])
 
-  emit("update:un-select-values", unSelectvalues);
-  emit("update:select-values", selectValues);
-  emit("change", selectValues, unSelectvalues);
-};
+  emit('update:un-select-values', unSelectvalues)
+  emit('update:select-values', selectValues)
+  emit('change', selectValues, unSelectvalues)
+}
 
 /**
  * 排序元素
@@ -245,28 +238,28 @@ const upadteValue = () => {
  * @param {*} type 类型  1移动到上方 -1移动到下方
  */
 const onChangeSort = (event, type) => {
-  console.log(type);
+  console.log(type)
 
-  const { props } = thisProps;
+  const { props } = thisProps
 
   if (type === 1) {
-    const unSelectvalues = topDatas.value.map((e) => e[props.key]);
+    const unSelectvalues = topDatas.value.map((e) => e[props.key])
 
-    emit("update:un-select-values", unSelectvalues);
-    emit("sort-top", unSelectvalues);
+    emit('update:un-select-values', unSelectvalues)
+    emit('sort-top', unSelectvalues)
   } else {
-    const selectValues = bottomDatas.value.map((e) => e[props.key]);
+    const selectValues = bottomDatas.value.map((e) => e[props.key])
 
-    emit("update:select-values", selectValues);
-    emit("sort-bottom", selectValues);
+    emit('update:select-values', selectValues)
+    emit('sort-bottom', selectValues)
   }
-};
+}
 
 // 设置图层可见性
 const onSetLayerVisible = (element, visible) => {
-  element.visible = visible;
-  emit("set-layer-visible", element, visible);
-};
+  element.visible = visible
+  emit('set-layer-visible', element, visible)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -275,7 +268,7 @@ const onSetLayerVisible = (element, visible) => {
   &-bottom {
     height: 250px;
     overflow: hidden;
-    border: $border;
+    border: 1px solid #e6ebf5;
     border-radius: 4px;
   }
 

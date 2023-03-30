@@ -1,10 +1,10 @@
 <template>
   <el-dialog
     title="自定义工具栏"
-    :modelValue="visible"
+    :modelValue="!visible"
     @close="onClose()"
     :width="370"
-    custom-class="custom-dialog-container"
+    class="custom-dialog-container"
   >
     <!-- 工具列表 -->
     <div v-for="(item, index) in utilList" :key="'util-list' + index">
@@ -72,9 +72,9 @@
 
 <script setup>
 import Draggable from 'vuedraggable'
-import { reactive, ref, onMounted } from '@vue/runtime-core'
+import { ref, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { setLocalS, getLocalS } from 'utils'
+import { setLocalS, getLocalS } from '@/utils'
 
 const props = defineProps({
   visible: {
@@ -95,6 +95,16 @@ const props = defineProps({
   }
 })
 
+// let visibles = computed({
+//   get: () => {
+//     console.log(props)
+//     return props.visible
+//   },
+//   set: (value) => {
+//     console.log(props.visible)
+//     if (!value) onClose()
+//   }
+// })
 const emit = defineEmits(['close', 'save'])
 
 // 自定义常用工具
@@ -185,7 +195,7 @@ const onSaveCustomUtils = () => {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/more-utils.scss';
+@import '@/assets/styles/more-utils.scss';
 .more-util-list-item {
   cursor: move;
 
@@ -224,7 +234,7 @@ const onSaveCustomUtils = () => {
   text-align: center;
   padding: 3px;
   font-size: 12px;
-  color: $primary-color;
+  color: var(--primaryColor, #168bf2);
   min-height: 100px;
 
   .el-icon-plus {
@@ -251,7 +261,7 @@ const onSaveCustomUtils = () => {
     position: absolute;
     right: -5px;
     top: -5px;
-    color: $pink;
+    color: pink;
     font-size: 14px;
   }
 }

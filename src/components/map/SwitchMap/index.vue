@@ -18,11 +18,11 @@
 </template>
 
 <script setup>
-import { ref, inject } from '@vue/runtime-core'
+import { ref, inject } from 'vue'
 import imageImg from 'assets/images/map-1.jpg'
 import vectorImg from 'assets/images/map-2.jpg'
 import terrainImg from 'assets/images/map-3.jpg'
-import common from 'common/index.js'
+import common from '@/common/index.js'
 
 const props = defineProps({
   // 是否显示地图操作栏
@@ -120,12 +120,12 @@ const onChangeMap = ({ basemap }) => {
 
     &.active {
       .maps-list-item__img {
-        border: 1px solid $primary-color;
+        border: 1px solid var(--primaryColor, #168bf2);
       }
 
       .maps-list-item__name {
         text-shadow: none;
-        background: $primary-color;
+        background: var(--primaryColor, #168bf2);
       }
     }
 

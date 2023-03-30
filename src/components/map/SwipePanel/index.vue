@@ -45,7 +45,7 @@
               :titles="transferTitles"
               :props="{
                 key: 'id',
-                label: 'title',
+                label: 'title'
               }"
               @change="onChangeLayer"
               @sort-top="onLayerOrder"
@@ -77,209 +77,202 @@
 </template>
 
 <script setup>
-import {
-  ref,
-  inject,
-  onMounted,
-  watch,
-} from "@vue/runtime-core";
+import { ref, inject, onMounted, watch } from 'vue'
 // Arcgis
-import Map from "@arcgis/core/Map";
-import MapView from "@arcgis/core/views/MapView";
-import TileLayer from "@arcgis/core/layers/TileLayer";
+import Map from '@arcgis/core/Map'
+import MapView from '@arcgis/core/views/MapView'
+import TileLayer from '@arcgis/core/layers/TileLayer'
 // 组件
-import MaxScreenPanel from "components/common/MaxScreenPanel/index.vue";
-import UtilPanel from "components/common/UtilPanel/index.vue";
-import CollapsePanel from "components/common/CollapsePanel/index.vue";
-import LayerTransfer from "./LayerTransfer/index.vue";
+import MaxScreenPanel from '@/components/common/MaxScreenPanel/index.vue'
+import UtilPanel from '@/components/common/UtilPanel/index.vue'
+import CollapsePanel from '@/components/common/CollapsePanel/index.vue'
+import LayerTransfer from './LayerTransfer/index.vue'
 // 通用模块
-import maxScreenPanel from "common/maxScreenPanel.js";
+import maxScreenPanel from '@/common/maxScreenPanel.js'
 // 地图事件
-import mapEvents from "common/mapEvents/index.js";
+import mapEvents from '@/common/mapEvents/index.js'
 // 地图
-import map from "common/map/index.js";
-import Swipe from "@arcgis/core/widgets/Swipe";
+import map from '@/common/map/index.js'
+import Swipe from '@arcgis/core/widgets/Swipe'
 
 const props = defineProps({
   // 面板
   panel: {
     type: Object,
-    default: () => ({}),
+    default: () => ({})
   },
   // 当前面板索引在panelList中的索引
   index: {
     type: Number,
-    default: 0,
+    default: 0
   },
   // 是否最小化
   minimize: {
     type: Boolean,
-    default: false,
-  },
-});
+    default: false
+  }
+})
 
-const emit = defineEmits(["close", "minimize", "maximize"]);
+const emit = defineEmits(['close', 'minimize', 'maximize'])
 
-const { onClosePanel, onMinimizePanel, onMaximizePanel } = maxScreenPanel();
+const { onClosePanel, onMinimizePanel, onMaximizePanel } = maxScreenPanel()
 
-const { mapCenterPoint } = map();
+const { mapCenterPoint } = map()
 
 // 是否显示系统固定头部
-const fixedHeader = inject("getFixedHeader");
+const fixedHeader = inject('getFixedHeader')
 
-let swipeMapView = null;
+let swipeMapView = null
 // 地图ID
-const mapID = "swipeMap";
+const mapID = 'swipeMap'
 
 // 穿梭框配置
-const transferUnSelectValues = ref([]);
-const transferSelectValues = ref(["ChinaOnlineCommunity"]);
+const transferUnSelectValues = ref([])
+const transferSelectValues = ref(['ChinaOnlineCommunity'])
 const transferLayers = ref([
   {
-    id: "ChinaBoundaryLine",
-    title: "中国边界线",
-    url:
-      "http://map.geoq.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer",
+    id: 'ChinaBoundaryLine',
+    title: '中国边界线',
+    url: 'http://map.geoq.cn/arcgis/rest/services/SimpleFeature/ChinaBoundaryLine/MapServer'
   },
   {
-    id: "ChinaOnlineStreetPurplishBlue",
-    title: "蓝黑色中文不含兴趣点版中国基础地图",
-    url:
-      "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+    id: 'ChinaOnlineStreetPurplishBlue',
+    title: '蓝黑色中文不含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer'
   },
   {
-    id: "ChinaOnlineCommunity",
-    title: "彩色中文含兴趣点版中国基础地图",
-    url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
-  },
-]);
-const transferTitles = ref(["上方", "下方"]);
+    id: 'ChinaOnlineCommunity',
+    title: '彩色中文含兴趣点版中国基础地图',
+    url: 'http://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer'
+  }
+])
+const transferTitles = ref(['上方', '下方'])
 
 // 卷帘配置
-const swipeDirection = ref("horizontal");
+const swipeDirection = ref('horizontal')
 
-const openSwipe = ref(false);
+const openSwipe = ref(false)
 
 // 监听卷帘开启/禁用变化
 watch(
   () => openSwipe.value,
   (val) => {
     if (swipeMapView) {
-      const eventName = val ? "onOpenSwipe" : "onRemoveSwipe";
-      mapEvents()[eventName](swipeMapView, handleSwipeData());
+      const eventName = val ? 'onOpenSwipe' : 'onRemoveSwipe'
+      mapEvents()[eventName](swipeMapView, handleSwipeData())
     } else {
-      console.log("找不到可操作的地图视图");
+      console.log('找不到可操作的地图视图')
     }
   }
-);
+)
 
 onMounted(() => {
-  init();
-});
+  init()
+})
 
 // 初始化
 const init = () => {
-  transferUnSelectValues.value = [];
+  transferUnSelectValues.value = []
   transferLayers.value.forEach((e) => {
     if (transferSelectValues.value.indexOf(e.id) < 0) {
-      transferUnSelectValues.value.push(e.id);
+      transferUnSelectValues.value.push(e.id)
     }
-  });
+  })
 
   let map = new Map({
-    basemap: "satellite",
-  });
+    basemap: 'satellite'
+  })
 
   // 加载图层
   transferLayers.value.forEach((e) => {
-    const { id, title, url } = e;
+    const { id, title, url } = e
     const layer = new TileLayer({
       id,
       title,
-      url,
-    });
-    map.add(layer);
-  });
+      url
+    })
+    map.add(layer)
+  })
 
   let view = new MapView({
     map,
     container: mapID,
     center: mapCenterPoint,
-    zoom: 14,
-  });
+    zoom: 14
+  })
 
-  view.ui.move("zoom", "bottom-right");
+  view.ui.move('zoom', 'bottom-right')
 
   // 移除powered by
-  view.ui._removeComponents(["attribution"]);
+  view.ui._removeComponents(['attribution'])
 
   // 定位到南宁全域范围
-  mapEvents()["onLocateToExtent"](view, {
+  mapEvents()['onLocateToExtent'](view, {
     extent: {
       center: mapCenterPoint,
       tilt: 0,
       heading: 0,
-      zoom: 11,
+      zoom: 11
     },
-    params: { duration: 3000 },
-  });
+    params: { duration: 3000 }
+  })
 
-  swipeMapView = view;
+  swipeMapView = view
 
-  openSwipe.value = true;
-  onLayerOrder();
-};
+  openSwipe.value = true
+  onLayerOrder()
+}
 
 // 改变卷帘方式
 const onChangeSwipeType = (val) => {
   // 垂直
-  if (val === "vertical") {
-    transferTitles.value = ["上方", "下方"];
+  if (val === 'vertical') {
+    transferTitles.value = ['上方', '下方']
   }
   // 水平
   else {
-    transferTitles.value = ["左侧", "右侧"];
+    transferTitles.value = ['左侧', '右侧']
   }
 
   if (openSwipe.value) {
-    mapEvents()["onChangeSwipeDirection"](swipeMapView, {
-      direction: val,
-    });
+    mapEvents()['onChangeSwipeDirection'](swipeMapView, {
+      direction: val
+    })
   }
-};
+}
 
 // 处理卷帘数据
 const handleSwipeData = () => {
   let data = {
     direction: swipeDirection.value,
     leadingLayers: [],
-    trailingLayers: [],
-  };
+    trailingLayers: []
+  }
 
-  console.log(transferSelectValues.value, transferUnSelectValues.value);
+  console.log(transferSelectValues.value, transferUnSelectValues.value)
 
   transferLayers.value.forEach((e) => {
-    const { id } = e;
-    const layer = swipeMapView.map.findLayerById(id);
+    const { id } = e
+    const layer = swipeMapView.map.findLayerById(id)
     if (layer) {
       if (transferUnSelectValues.value.indexOf(id) >= 0) {
-        data.leadingLayers.push(layer);
+        data.leadingLayers.push(layer)
       } else if (transferSelectValues.value.indexOf(id) >= 0) {
-        data.trailingLayers.push(layer);
+        data.trailingLayers.push(layer)
       }
     }
-  });
+  })
 
-  return data;
-};
+  return data
+}
 
 // 改变图层
 const onChangeLayer = () => {
   if (openSwipe.value) {
-    mapEvents()["onChangeSwipeLayer"](swipeMapView, handleSwipeData());
-    onLayerOrder();
+    mapEvents()['onChangeSwipeLayer'](swipeMapView, handleSwipeData())
+    onLayerOrder()
   }
-};
+}
 
 // 排序
 const onLayerOrder = () => {
@@ -287,32 +280,32 @@ const onLayerOrder = () => {
     // 反向排序
     const layerIds = [
       ...transferUnSelectValues.value.reverse(),
-      ...transferSelectValues.value.reverse(),
-    ];
+      ...transferSelectValues.value.reverse()
+    ]
 
-    mapEvents()["onLayerOrder"](swipeMapView, { layerIds });
+    mapEvents()['onLayerOrder'](swipeMapView, { layerIds })
   }
-};
+}
 
 // 设置图层可见性
 const onSetLayerVisble = ({ id }, visible) => {
-  mapEvents()["setLayerVisible"](swipeMapView, { id, visible });
-};
+  mapEvents()['setLayerVisible'](swipeMapView, { id, visible })
+}
 
 // 关闭面板
 const onClose = () => {
-  onClosePanel(emit, props);
-};
+  onClosePanel(emit, props)
+}
 
 // 最小化
 const onMinimize = () => {
-  onMinimizePanel(emit, props);
-};
+  onMinimizePanel(emit, props)
+}
 
 // 最大化
 const onMaximize = () => {
-  onMaximizePanel(emit, props);
-};
+  onMaximizePanel(emit, props)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -327,7 +320,7 @@ const onMaximize = () => {
     color: #666;
     font-weight: bold;
     padding-bottom: 10px;
-    border-bottom: $border;
+    border-bottom: 1px solid #e6ebf5;
     margin-bottom: 15px;
   }
 }
@@ -377,7 +370,7 @@ const onMaximize = () => {
   &-top,
   &-bottom {
     height: 240px;
-    border: $border;
+    border: 1px solid #e6ebf5;
     border-radius: 4px;
   }
 

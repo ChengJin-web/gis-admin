@@ -13,9 +13,7 @@
       type="button"
       title="测量两点之间的距离"
       @click="
-        onMeasureDistance(
-          mapViewType === '2D' ? 'onMeasureDistance2D' : 'onMeasureDistance3D'
-        )
+        onMeasureDistance(mapViewType === '2D' ? 'onMeasureDistance2D' : 'onMeasureDistance3D')
       "
     ></button>
     <button
@@ -30,78 +28,78 @@
 </template>
 
 <script setup>
-import { watch } from "@vue/runtime-core";
-import { ref } from "@vue/reactivity";
-import common from "common";
-import UtilPanel from "components/common/UtilPanel/index.vue";
+import { watch } from 'vue'
+import { ref } from 'vue'
+import common from '@/common'
+import UtilPanel from '@/components/common/UtilPanel/index.vue'
 
 const props = defineProps({
   // 面板
   panel: {
     type: Object,
     default: () => ({
-      utilName: "量算",
-    }),
+      utilName: '量算'
+    })
   },
   // 当前面板索引在panelList中的索引
   index: {
     type: Number,
-    default: 0,
+    default: 0
   },
   mapViewType: {
     type: String,
-    default: "3D",
-  },
-});
+    default: '3D'
+  }
+})
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close'])
 
-const { dispatchMapEvent } = common();
+const { dispatchMapEvent } = common()
 // 当前激活按钮
-const activeButton = ref(null);
-const panelID = "measurePanel";
+const activeButton = ref(null)
+const panelID = 'measurePanel'
 
 watch(
   () => props.mapViewType,
   () => {
     // 切换2/3D视图时取消原有激活状态
-    activeButton.value = null;
+    activeButton.value = null
   }
-);
+)
 
 // 关闭面板
 const onClose = () => {
-  emit("close", {
+  emit('close', {
     panel: props.panel,
     index: props.index,
     active: false,
-    eventSuffix: "Measure",
-    panelID,
-  });
-};
+    eventSuffix: 'Measure',
+    panelID
+  })
+}
 
 // 设置当前激活按钮
 const setActiveButton = (val) => {
-  activeButton.value = activeButton.value === val ? null : val;
-};
+  activeButton.value = activeButton.value === val ? null : val
+}
 
 // 测量距离
 const onMeasureDistance = (eventName) => {
-  setActiveButton("distance");
+  setActiveButton('distance')
   dispatchMapEvent(eventName, {
     panelID,
-    activeButton: activeButton.value,
-  });
-};
+    activeButton: activeButton.value
+  })
+}
 
 // 测量面积
 const onMeasureArea = (eventName) => {
-  setActiveButton("area");
+  setActiveButton('area')
   dispatchMapEvent(eventName, {
     panelID,
-    activeButton: activeButton.value,
-  });
-};
+    activeButton: activeButton.value
+  })
+}
 </script>
 
 <style lang="scss">

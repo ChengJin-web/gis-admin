@@ -23,9 +23,9 @@
 </template>
 
 <script setup>
-import common from 'common'
-import { inject, watch } from '@vue/runtime-core'
-import { ref } from '@vue/reactivity'
+import common from '@/common'
+import { inject, watch } from 'vue'
+import { ref } from 'vue'
 
 const { dispatchMapEvent } = common()
 // 当前地图视图为2D或者3D

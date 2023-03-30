@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { defineComponent } from '@vue/runtime-core'
+import { defineComponent } from 'vue'
 // 组件
 import MoreUtils from './MoreUtils/index.vue'
 import CustomUtilDialog from './MoreUtils/CustomUtilDialog.vue'
@@ -79,18 +79,16 @@ import {
   ScreenshotPanel,
   LocatePanel
 } from './Utils/index.js'
-// Api
-import Api from 'api/map/index.js'
+// // Api
+// import Api from 'api/map/index.js'
 
 export default defineComponent({
   name: 'UtilsPanel',
-
   components: {
     MoreUtils,
     CustomUtilDialog,
     MeasurePanel,
     DrawPanel,
-    MeasurePanel,
     SlicePanel,
     DayLightPanel,
     ElevationProfilePanel,
@@ -102,12 +100,12 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { defineExpose, ref, reactive, onMounted, inject, nextTick } from '@vue/runtime-core'
+import { ref, reactive, onMounted, inject, nextTick } from 'vue'
 // 通用模块
-import common from 'common'
-import utilsPanel from 'common/utilsPanel.js'
+import common from '@/common'
+import utilsPanel from '@/common/utilsPanel.js'
 // 工具
-import { getLocalS } from 'utils'
+import { getLocalS } from '@/utils'
 
 const emit = defineEmits(['open-full-screen-window'])
 
@@ -195,23 +193,145 @@ onMounted(() => {
   let list = []
 
   panelListLoading.value = true
-  Api.GetUtilList()
-    .then((res) => {
-      const { code, data } = res
-      if (code === 200) {
-        utilList.value = data
-        data.forEach((e) => {
-          if (e.children && e.children.length) {
-            e.children.forEach((c) => {
-              list.push(c)
-            })
-          }
-        })
 
-        panelList.value = [...commonUtils.value, ...list]
-      }
-    })
-    .finally(() => (panelListLoading.value = false))
+  let data = [
+    {
+      title: '常用工具',
+      children: [
+        {
+          component: 'MeasurePanel',
+          classStyles: 'iconfont icon-celianggongju',
+          utilName: '量算',
+          utilActive: false,
+          eventSuffix: 'Measure',
+          panelID: null,
+          enable2D: true,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'DrawPanel',
+          classStyles: 'iconfont icon-huizhi',
+          utilName: '绘制',
+          utilActive: false,
+          eventSuffix: 'Draw',
+          panelID: 'drawPanel',
+          enable2D: true,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'ScreenshotPanel',
+          classStyles: 'iconfont icon-jietu',
+          utilName: '截图',
+          utilActive: false,
+          eventSuffix: 'ScreenShot',
+          panelID: null,
+          enable2D: true,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'LocatePanel',
+          classStyles: 'iconfont icon-locate',
+          utilName: '定位',
+          utilActive: false,
+          eventSuffix: 'Locate',
+          panelID: 'locatePanel',
+          enable2D: true,
+          enable3D: true,
+          fullScreen: false
+        }
+      ]
+    },
+    {
+      title: '三维工具',
+      children: [
+        {
+          component: 'LineOfSightPanel',
+          classStyles: 'iconfont icon-yanjing',
+          utilName: '视线',
+          utilActive: false,
+          eventSuffix: 'LineOfSight',
+          panelID: 'lineOfSightPanel',
+          enable2D: false,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'SlicePanel',
+          classStyles: 'iconfont icon-poumianfenxi',
+          utilName: '剖切',
+          utilActive: false,
+          eventSuffix: 'Slice',
+          panelID: 'slicePanel',
+          enable2D: false,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'ElevationProfilePanel',
+          classStyles: 'iconfont icon-poumianfenxi1',
+          utilName: '高程剖面',
+          utilActive: false,
+          eventSuffix: 'ElevationProfile',
+          panelID: 'elevationProfilePanel',
+          enable2D: false,
+          enable3D: true,
+          fullScreen: false
+        },
+        {
+          component: 'DayLightPanel',
+          classStyles: 'iconfont icon-rizhao',
+          utilName: '日照',
+          utilActive: false,
+          eventSuffix: 'DayLight',
+          panelID: 'dayLightPanel',
+          enable2D: false,
+          enable3D: true,
+          fullScreen: false
+        }
+      ]
+    },
+    {
+      title: '其他',
+      children: [
+        {
+          component: 'SwipePanel',
+          classStyles: 'iconfont icon-swipe',
+          utilName: '卷帘',
+          utilActive: false,
+          eventSuffix: 'Swipe',
+          panelID: 'swipePanel',
+          enable2D: true,
+          enable3D: true,
+          fullScreen: true
+        },
+        {
+          component: 'SplitScreen',
+          classStyles: 'iconfont icon-split',
+          utilName: '分屏',
+          utilActive: false,
+          eventSuffix: null,
+          panelID: null,
+          enable2D: true,
+          enable3D: true,
+          fullScreen: true
+        }
+      ]
+    }
+  ]
+  utilList.value = data
+  data.forEach((e) => {
+    if (e.children && e.children.length) {
+      e.children.forEach((c) => {
+        list.push(c)
+      })
+    }
+  })
+
+  panelListLoading.value = false
+  panelList.value = [...commonUtils.value, ...list]
 })
 
 /**
@@ -420,11 +540,11 @@ defineExpose({ setPanelVisble })
     }
 
     &:hover {
-      color: $primary-color;
+      color: var(--primaryColor, #168bf2);
     }
 
     &.is-active {
-      color: $primary-color;
+      color: var(--primaryColor, #168bf2);
     }
 
     &.is-disabled {

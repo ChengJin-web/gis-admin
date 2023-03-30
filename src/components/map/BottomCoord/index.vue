@@ -8,24 +8,22 @@
         >
         All Rights Reserved.</span
       >
-
-    
     </div>
   </div>
 </template>
 
 <script setup>
-import { inject } from "@vue/runtime-core";
+import { inject } from 'vue'
 
 const props = defineProps({
   companyName: {
     type: String,
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 
 // 地图底图
-const basemap = inject("getBasemap");
+const basemap = inject('getBasemap')
 </script>
 
 <style lang="scss" scoped>
@@ -44,7 +42,7 @@ const basemap = inject("getBasemap");
     background: rgba(255, 255, 255, 0.35);
     border-radius: 0 4px 0 0;
     .link {
-      color: $primary-color;
+      color: var(--primaryColor, #168bf2);
 
       &:hover {
         span {

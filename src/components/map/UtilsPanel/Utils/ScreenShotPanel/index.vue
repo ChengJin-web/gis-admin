@@ -19,55 +19,55 @@
 </template>
 
 <script setup>
-import common from "common";
-import { computed } from "@vue/runtime-core";
-import UtilPanel from "components/common/UtilPanel/index.vue";
+import common from '@/common'
+import { computed } from 'vue'
+import UtilPanel from '@/components/common/UtilPanel/index.vue'
 
 const props = defineProps({
   // 面板
   panel: {
     type: Object,
     default: () => ({
-      utilName: "截图",
-    }),
+      utilName: '截图'
+    })
   },
   // 当前面板索引在panelList中的索引
   index: {
     type: Number,
-    default: 0,
+    default: 0
   },
   mapViewType: {
     type: String,
-    default: "3D",
-  },
-});
+    default: '3D'
+  }
+})
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close'])
 
-const { store, dispatchMapEvent } = common();
+const { store, dispatchMapEvent } = common()
 
 // // 获取顶级组件传递的值：是否开启截图
-const startScreenshot = computed(() => store.getters.startScreenshot);
+const startScreenshot = computed(() => store.getters.startScreenshot)
 
 // 当前面板ID
-const panelID = "screenshotPanel";
+const panelID = 'screenshotPanel'
 
 // 关闭面板
 const onClose = () => {
-  emit("close", {
+  emit('close', {
     panel: props.panel,
     index: props.index,
     active: false,
-    eventSuffix: "ScreenShot",
-    panelID,
-  });
-};
+    eventSuffix: 'ScreenShot',
+    panelID
+  })
+}
 
 // 开启截图
 const onStartScreenshot = () => {
-  store.dispatch("map/setStartScreenshot", true);
-  dispatchMapEvent("onScreenShot");
-};
+  store.dispatch('map/setStartScreenshot', true)
+  dispatchMapEvent('onScreenShot')
+}
 </script>
 <style lang="scss">
 #screenshotPanel {
