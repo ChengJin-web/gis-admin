@@ -54,12 +54,12 @@
       </template>
 
       <!-- 自定义常用工具栏 -->
-      <CustomUtilDialog
+      <!-- <CustomUtilDialog
         :visible="customUtilDialog.visible"
         :util-list="utilList"
         @close="setCustomUtilDialogVisible(false)"
         @save="onSaveCustomUtils"
-      />
+      /> -->
     </div>
   </div>
 </template>
@@ -68,7 +68,7 @@
 import { defineComponent } from 'vue'
 // 组件
 import MoreUtils from './MoreUtils/index.vue'
-import CustomUtilDialog from './MoreUtils/CustomUtilDialog.vue'
+// import CustomUtilDialog from './MoreUtils/CustomUtilDialog.vue'
 import {
   DrawPanel,
   MeasurePanel,
@@ -86,7 +86,7 @@ export default defineComponent({
   name: 'UtilsPanel',
   components: {
     MoreUtils,
-    CustomUtilDialog,
+    // CustomUtilDialog,
     MeasurePanel,
     DrawPanel,
     SlicePanel,
@@ -471,8 +471,6 @@ const onClearScreen = () => {
       handleHighlightPanels(e, false)
     }
   })
-
-  console.log(panelList.value)
 
   events.push({
     event: 'onClearScreen',

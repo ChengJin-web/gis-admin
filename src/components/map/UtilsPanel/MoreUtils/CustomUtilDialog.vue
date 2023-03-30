@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="自定义工具栏"
-    :modelValue="!visible"
+    :modelValue="visible"
     @close="onClose()"
     :width="370"
     class="custom-dialog-container"
@@ -71,8 +71,9 @@
 </template>
 
 <script setup>
-import Draggable from 'vuedraggable'
-import { ref, onMounted, computed } from 'vue'
+// import Draggable from 'vuedraggable'
+
+import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { setLocalS, getLocalS } from '@/utils'
 
@@ -94,17 +95,6 @@ const props = defineProps({
     default: () => []
   }
 })
-
-// let visibles = computed({
-//   get: () => {
-//     console.log(props)
-//     return props.visible
-//   },
-//   set: (value) => {
-//     console.log(props.visible)
-//     if (!value) onClose()
-//   }
-// })
 const emit = defineEmits(['close', 'save'])
 
 // 自定义常用工具

@@ -46,42 +46,42 @@
 </template>
 
 <script setup>
-import Draggable from "vuedraggable";
+// import Draggable from "vuedraggable";
 
 const thisProps = defineProps({
   // 未选中的数据，在上方
   data: {
     type: Array,
-    default: [],
+    default: []
   },
   // 属性
   props: {
     type: Object,
     default: {
-      key: "id",
-      label: "title",
-    },
+      key: 'id',
+      label: 'title'
+    }
   },
   // 类型 上方元素 -1下方元素
   type: {
     type: Number,
-    default: 1,
-  },
-});
+    default: 1
+  }
+})
 
-const emit = defineEmits(["change-check", "set-layer-visible", "change-sort"]);
+const emit = defineEmits(['change-check', 'set-layer-visible', 'change-sort'])
 
 const onChangeCheck = (element) => {
-  emit("change-check", element, thisProps.type);
-};
+  emit('change-check', element, thisProps.type)
+}
 
 const onSetLayerVisible = (element, visible) => {
-  emit("set-layer-visible", element, visible);
-};
+  emit('set-layer-visible', element, visible)
+}
 
 const onChangeSort = (event) => {
-  emit("change-sort", event, thisProps.type);
-};
+  emit('change-sort', event, thisProps.type)
+}
 </script>
 
 <style lang="scss" scoped>
