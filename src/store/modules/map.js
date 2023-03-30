@@ -17,6 +17,11 @@ const useMapStore = defineStore('map', {
     },
     // 是否开启截图
     startScreenshot: false
-  })
+  }),
+  actions: {
+    changeMapEvent(mapEvent) {
+      this.mapEvent = mapEvent
+    }
+  }
 })
 export default useMapStore

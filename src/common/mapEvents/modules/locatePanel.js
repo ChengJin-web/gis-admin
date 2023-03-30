@@ -274,7 +274,7 @@ export default {
       const { extent, params } = data
       view.goTo(extent, params).then(function () {
         if (params.showMessage) {
-          ElMessage.success('已将视图调整至南宁市全幅区域')
+          ElMessage.success('已将视图调整至杭州全幅区域')
         }
       })
     } catch (e) {
