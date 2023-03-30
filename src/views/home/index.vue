@@ -13,12 +13,6 @@ const mapViewType = ref('2D')
 // 当前地图底图类型
 const basemap = ref('hybrid')
 
-// 摄像机信息
-const cameraInfo = ref({
-  tilt: 45,
-  heading: 0
-})
-
 // 坐标信息
 const coordInfo = reactive({
   // 会展中心坐标
@@ -83,7 +77,6 @@ const onOpenFullscreenWindow = ({ visible, panel, index }) => {
 // 顶级组件通过provide传递给子孙组件
 provide('getMapViewType', mapViewType)
 provide('getBasemap', basemap)
-provide('getCameraInfo', cameraInfo)
 provide('getCoordInfo', coordInfo)
 provide('getFixedHeader', false)
 </script>
