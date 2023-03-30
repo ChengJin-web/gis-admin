@@ -6,7 +6,7 @@ import MapView from '@arcgis/core/views/MapView'
 import Basemap from '@arcgis/core/Basemap'
 
 // 组件
-// import Screenshot from '@/components/map/Screenshot/index.vue'
+import Screenshot from '@/components/map/Screenshot/index.vue'
 // 地图事件
 import mapEvents from '@/common/mapEvents/index.js'
 // 地图
@@ -45,6 +45,7 @@ watch(
     if (events.length) {
       return events.forEach((e) => {
         const { event, data } = e
+        console.log(event)
 
         currentMapConfig = map2D
 
@@ -153,6 +154,12 @@ const onSetScale = (scale) => {
   currentMapConfig.view.scale = scale
 }
 
+// 关闭截图功能
+const onCloseScreenshot = () => {
+  currentMapConfig.view.container.classList.remove('screenshotCursor')
+  // store.dispatch("map/setStartScreenshot", false);
+}
+
 // 暴露方法给父组件调用
 defineExpose({ onSetScale })
 </script>
@@ -160,10 +167,14 @@ defineExpose({ onSetScale })
 <template>
   <div class="map-container">
     <div :id="map2D.id" :class="{ hide: mapViewType !== '2D' }"></div>
+    <Screenshot @close="onCloseScreenshot" />
   </div>
 </template>
 
 <style lang="scss" scoped>
+.map-container {
+  position: relative;
+}
 #map2D {
   width: 100%;
   height: 100vh;

@@ -56,24 +56,6 @@ const onMapSetView = ({ scale }) => {
   mapRef.value.onSetScale(scale)
 }
 
-// 打开全屏窗口
-const onOpenFullscreenWindow = ({ visible, panel, index }) => {
-  console.log('打开全屏弹窗')
-
-  const val = { visible, panel, index, minimize: false }
-
-  switch (panel.component) {
-    case 'SwipePanel':
-      swipePanel.value = val
-      break
-    case 'SplitScreen':
-      splitScreen.value = val
-      break
-    default:
-      console.log('component is error')
-  }
-}
-
 // 顶级组件通过provide传递给子孙组件
 provide('getMapViewType', mapViewType)
 provide('getBasemap', basemap)
@@ -93,6 +75,6 @@ provide('getFixedHeader', false)
     />
 
     <!-- 工具栏 -->
-    <UtilsPanel ref="utilsPanelRef" @open-full-screen-window="onOpenFullscreenWindow" />
+    <UtilsPanel ref="utilsPanelRef" />
   </div>
 </template>

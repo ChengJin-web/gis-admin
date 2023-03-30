@@ -94,20 +94,10 @@ export default function () {
     // 以对象方式单传一个方法
     if (type === 'string') {
       mapStore.changeMapEvent([{ event: events, data }])
-      // store.$patch({
-      //     counter: store.counter + 1,
-      //     name: 'Abalam',
-      //   })
-      //   store.dispatch('map/changeMapEvent', [
-      //     {
-      //       event: events,
-      //       data
-      //     }
-      //   ])
     }
     // 以数组方式传递多个方法
     else if (type === 'object') {
-      //   store.dispatch('map/changeMapEvent', events)
+      mapStore.changeMapEvent(events)
     }
   }
 

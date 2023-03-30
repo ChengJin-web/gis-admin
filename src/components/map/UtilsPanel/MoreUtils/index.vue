@@ -24,7 +24,7 @@
             @click="onClickUtil(child, child.eventSuffix, child.panelID)"
           >
             <div class="more-util-list-item__icon">
-              <i :class="child.classStyles"></i>
+              <i :class="child.classStyles">{{ child.utilName }}</i>
             </div>
             <div class="more-util-list-item__name">{{ child.utilName }}</div>
           </li>

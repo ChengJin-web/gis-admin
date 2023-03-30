@@ -24,7 +24,7 @@ import vectorImg from 'assets/images/map-2.jpg'
 import terrainImg from 'assets/images/map-3.jpg'
 import common from '@/common/index.js'
 
-const props = defineProps({
+defineProps({
   // 是否显示地图操作栏
   mapOperatePanel: {
     type: Boolean,
