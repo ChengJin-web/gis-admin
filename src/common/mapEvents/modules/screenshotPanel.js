@@ -184,8 +184,8 @@ export default {
                 downloadImage(`场景截图.png`, screenshot.dataUrl)
               }
 
-              const screenshotContainer = document.getElementById('screenshotContainer')
-              screenshotContainer.classList.add('hide')
+              // const screenshotContainer = document.getElementById('screenshotContainer')
+              // screenshotContainer.classList.add('hide')
             }
 
             // view.container.classList.remove('crosshair')
