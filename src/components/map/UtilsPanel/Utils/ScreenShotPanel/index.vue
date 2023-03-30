@@ -44,10 +44,10 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { store, dispatchMapEvent } = common()
+const { mapStore, dispatchMapEvent } = common()
 
-// // 获取顶级组件传递的值：是否开启截图
-const startScreenshot = computed(() => store.getters.startScreenshot)
+//  获取顶级组件传递的值：是否开启截图
+const startScreenshot = computed(() => mapStore.startScreenshot)
 
 // 当前面板ID
 const panelID = 'screenshotPanel'

@@ -45,7 +45,6 @@ watch(
     if (events.length) {
       return events.forEach((e) => {
         const { event, data } = e
-        console.log(event)
 
         currentMapConfig = map2D
 

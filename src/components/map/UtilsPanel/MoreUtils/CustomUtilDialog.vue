@@ -139,7 +139,7 @@ const onClose = () => {
 
 // 监听拖拽事件
 const onChangeCustomUtil = (event) => {
-  // console.log(event);
+  console.log(event)
 }
 
 // 添加自定义工具
