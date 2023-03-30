@@ -11,7 +11,7 @@
     >
       <div class="title">
         当前视图<span class="normal ml-10"
-          ><el-tag size="small" type="success">{{ mapViewType }}视图</el-tag></span
+          ><el-tag type="success">{{ mapViewType }}视图</el-tag></span
         >
       </div>
       <div class="title">鼠标位置</div>
@@ -65,7 +65,7 @@ const coordInfo = inject('getCoordInfo')
 // 地图底图
 const basemap = inject('getBasemap')
 // 最佳比例
-const bestScale = ref(2000)
+const bestScale = ref(20000)
 
 const emit = defineEmits(['click-fold', 'map-set-view-scale'])
 
@@ -75,7 +75,7 @@ const { mapCenterPoint } = map()
 watch(
   () => basemap.value,
   (val) => {
-    bestScale.value = val === 'terrain' ? 30000 : 2000
+    bestScale.value = val === 'terrain' ? 30000 : 20000
   }
 )
 

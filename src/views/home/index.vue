@@ -14,7 +14,7 @@ const basemap = ref('hybrid')
 // 摄像机信息
 const cameraInfo = ref({
   tilt: 45,
-  heading: 44
+  heading: 0
 })
 
 // 坐标信息
@@ -24,7 +24,7 @@ const coordInfo = reactive({
   lat: 30.255994,
   tilt: 0,
   heading: 0,
-  scale: 50000000,
+  scale: 50000,
   locate: ''
 })
 

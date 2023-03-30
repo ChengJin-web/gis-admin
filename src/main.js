@@ -7,7 +7,7 @@ import router from './router'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import '@arcgis/core/assets/esri/themes/dark/main.css'
-import '@/assets/style/global.css'
+import '@/assets/styles/global.css'
 
 const app = createApp(App)
 
