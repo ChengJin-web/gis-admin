@@ -107,7 +107,11 @@ export default {
     console.log('收起截图面板')
 
     isSelectedScreen = false
-    view.container.classList.remove('crosshair')
+    // view.container.classList.remove('crosshair')
+
+    let body = document.querySelector('body')
+    body.style.cursor = 'Auto'
+
     setMaskPosition(null)
 
     if (dragHandler) {
@@ -128,8 +132,9 @@ export default {
     let area = null
     if (!isSelectedScreen) {
       console.log('激活截图工具')
-
-      view.container.classList.add('crosshair')
+      var body = document.querySelector('body')
+      body.style.cursor = 'crosshair'
+      // view.container.classList.add('crosshair')
 
       isSelectedScreen = true
 
@@ -178,10 +183,17 @@ export default {
               else {
                 downloadImage(`场景截图.png`, screenshot.dataUrl)
               }
+
+              const screenshotContainer = document.getElementById('screenshotContainer')
+              screenshotContainer.classList.add('hide')
             }
 
-            view.container.classList.remove('crosshair')
+            // view.container.classList.remove('crosshair')
+            let body = document.querySelector('body')
+            body.style.cursor = 'Auto'
+
             isSelectedScreen = false
+
             setMaskPosition(null)
           })
         }
@@ -193,7 +205,11 @@ export default {
 
       dragHandler.remove()
       setMaskPosition(null)
-      view.container.classList.remove('crosshair')
+      // view.container.classList.remove('crosshair')
+      // var body = document.querySelector('body')
+      let body = document.querySelector('body')
+      body.style.cursor = 'Auto'
+
       isSelectedScreen = false
     }
   }
