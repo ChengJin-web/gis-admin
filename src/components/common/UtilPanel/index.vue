@@ -119,7 +119,7 @@ const onClickMax = () => {
       cursor: pointer;
 
       &:hover {
-        color: var(--primaryColor, #168bf2);
+        color: var(--el-color-primary, #168bf2);
       }
     }
 
@@ -150,14 +150,14 @@ const onClickMax = () => {
       cursor: pointer;
 
       &:hover {
-        color: var(--primaryColor, #168bf2);
-        border-color: var(--primaryColor, #168bf2);
+        color: var(--el-color-primary, #168bf2);
+        border-color: var(--el-color-primary, #168bf2);
       }
 
       &.is-active {
-        background: var(--primaryColor, #168bf2);
+        background: var(--el-color-primary, #168bf2);
         color: #e4e4e4;
-        border-color: var(--primaryColor, #168bf2);
+        border-color: var(--el-color-primary, #168bf2);
       }
     }
   }

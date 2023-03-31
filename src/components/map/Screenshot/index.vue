@@ -62,7 +62,7 @@ const onClose = () => {
 #maskDiv {
   position: absolute;
   background: rgba(255, 255, 255, 0.3);
-  border: 2px dashed var(--primaryColor, #168bf2);
+  border: 2px dashed var(--el-color-primary, #168bf2);
 
   &.hide {
     display: none;

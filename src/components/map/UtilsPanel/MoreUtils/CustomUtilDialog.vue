@@ -224,7 +224,7 @@ const onSaveCustomUtils = () => {
   text-align: center;
   padding: 3px;
   font-size: 12px;
-  color: var(--primaryColor, #168bf2);
+  color: var(--el-color-primary, #168bf2);
   min-height: 100px;
 
   .el-icon-plus {

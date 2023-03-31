@@ -120,12 +120,12 @@ const onChangeMap = ({ basemap }) => {
 
     &.active {
       .maps-list-item__img {
-        border: 1px solid var(--primaryColor, #168bf2);
+        border: 1px solid var(--el-color-primary, #168bf2);
       }
 
       .maps-list-item__name {
         text-shadow: none;
-        background: var(--primaryColor, #168bf2);
+        background: var(--el-color-primary, #168bf2);
       }
     }
 

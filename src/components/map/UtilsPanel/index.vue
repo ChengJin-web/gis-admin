@@ -455,11 +455,11 @@ defineExpose({ setPanelVisble })
     }
 
     &:hover {
-      color: var(--primaryColor, #168bf2);
+      color: var(--el-color-primary, #168bf2);
     }
 
     &.is-active {
-      color: var(--primaryColor, #168bf2);
+      color: var(--el-color-primary, #168bf2);
     }
 
     &.is-disabled {
