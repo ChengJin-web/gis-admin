@@ -15,7 +15,7 @@
       font-size: 12px;
 
       &:hover {
-        color: var(--el-color-primary, #168bf2);;
+        color: var(--el-color-primary, #168bf2);
       }
     }
   }
@@ -37,7 +37,7 @@
     position: relative;
 
     &.is-active {
-      color: var(--el-color-primary, #168bf2);;
+      color: var(--el-color-primary, #168bf2);
     }
 
     &.is-disabled {
@@ -52,7 +52,7 @@
     &.is-active {
       .util-list-item__icon,
       .util-list-item__name {
-        color: var(--el-color-primary, #168bf2);;
+        color: var(--el-color-primary, #168bf2);
       }
     }
 

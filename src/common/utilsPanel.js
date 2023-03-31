@@ -15,13 +15,13 @@ export default function () {
    */
   const isUtilDisabled = (enable2D, enable3D, mapViewType) => {
     if (
-      (enable2D && mapViewType === "3D" && !enable3D) ||
-      (enable3D && mapViewType === "2D" && !enable2D)
+      (enable2D && mapViewType === '3D' && !enable3D) ||
+      (enable3D && mapViewType === '2D' && !enable2D)
     ) {
-      return true;
+      return true
     }
-    return false;
-  };
+    return false
+  }
 
   /**
    * 当前面板是否高亮
@@ -30,12 +30,12 @@ export default function () {
    * @returns ture/false
    */
   const isUtilActive = (hPanels, component) => {
-    const index = hPanels.findIndex((e) => e.component === component);
-    return index >= 0;
-  };
+    const index = hPanels.findIndex((e) => e.component === component)
+    return index >= 0
+  }
 
   return {
     isUtilDisabled,
     isUtilActive
-  };
+  }
 }
