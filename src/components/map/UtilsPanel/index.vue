@@ -90,8 +90,6 @@ import { ref, reactive, onMounted, inject, nextTick } from 'vue'
 // 通用模块
 import common from '@/common'
 import utilsPanel from '@/common/utilsPanel.js'
-// 工具
-import { getLocalS } from '@/utils'
 
 const { store, dispatchMapEvent } = common()
 const { isUtilDisabled, isUtilActive } = utilsPanel()

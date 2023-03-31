@@ -24,6 +24,12 @@ const useMapStore = defineStore('map', {
     },
     setStartScreenshot(startScreenshot) {
       this.startScreenshot = startScreenshot
+    },
+    setStartGetLocateCoord(startGetLocateCoord) {
+      this.startGetLocateCoord = startGetLocateCoord
+    },
+    setLocateData(locateData) {
+      this.locateData = locateData
     }
   }
 })

@@ -34,10 +34,8 @@ import { ref, computed, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
 import common from '@/common'
-import locateImg from '@/assets/images/locate.png'
+// import locateImg from '@/assets/images/locate.png'
 // 工具
-import { getLocalS } from '@/utils'
-
 const props = defineProps({
   // 面板
   panel: {
@@ -59,12 +57,13 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { dispatchMapEvent, store } = common()
+const { dispatchMapEvent, mapStore } = common()
 
 // 坐标信息
-const locateData = computed(() => store.getters.locateData)
+// const locateData = computed(() => mapStore.getters.locateData)
+
 // 开始拾取坐标
-const startGetLocateCoord = computed(() => store.getters.startGetLocateCoord)
+const startGetLocateCoord = computed(() => mapStore.startGetLocateCoord)
 
 // 当前面板ID
 const panelID = 'locatePanel'
@@ -73,7 +72,7 @@ const posLon = ref(0)
 const posLat = ref(0)
 
 watch(
-  () => store.getters.locateData,
+  () => mapStore.locateData,
   (val) => {
     posLon.value = parseFloat(val.lon).toFixed(5)
     posLat.value = parseFloat(val.lat).toFixed(5)
@@ -103,11 +102,17 @@ const onLocateTo = () => {
     lon: posLon.value,
     lat: posLat.value,
     symbol: {
-      type: 'picture-marker',
-      url: locateImg,
-      width: '40px',
-      height: '40px'
+      color: 'red',
+      type: 'simple-marker'
+      // width: '40px',
+      // height: '40px'
     }
+    // symbol: {
+    //   type: 'picture-marker',
+    //   url: locateImg,
+    //   width: '40px',
+    //   height: '40px'
+    // }
   }
 
   dispatchMapEvent([
@@ -124,16 +129,14 @@ const onLocateTo = () => {
 
 // 拾取坐标
 const onGetLocate = () => {
-  store.dispatch('map/setStartGetLocateCoord', true)
-
-  dispatchMapEvent('onGetLocateCoord', {
-    store
-  })
+  mapStore.setStartGetLocateCoord(true)
+  dispatchMapEvent('onGetLocateCoord', { mapStore })
 }
 
 // 清除所有坐标标记
 const onClearCoordMarker = () => {
   dispatchMapEvent('onClearCoordMarker')
+  mapStore.setLocateData({ lon: 0, lat: 0 })
 }
 </script>
 

@@ -520,17 +520,6 @@ export function setLocalS(key, value) {
 }
 
 /**
- * localstorage获取本地缓存
- *
- * @param {*} key key名
- */
-export function getLocalS(key) {
-  const res = localStorage.getItem(key)
-  if (res && res !== 'null') return res
-  else return false
-}
-
-/**
  * localstorage删除本地储存
  *
  * @param {*} key key名

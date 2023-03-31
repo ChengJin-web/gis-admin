@@ -7,7 +7,7 @@ import Draw from '@arcgis/core/views/draw/Draw'
 import Graphic from '@arcgis/core/Graphic'
 import SpatialReference from '@arcgis/core/geometry/SpatialReference'
 import PopupTemplate from '@arcgis/core/PopupTemplate'
-import locateImg from '@/assets/images/locate.png'
+// import locateImg from '@/assets/images/locate.png'
 // 工具
 import { setLocalS } from '@/utils/index.js'
 // 配置
@@ -115,11 +115,9 @@ export default {
    * @param {*} data 坐标数据
    */
   onGetLocateCoord: (view, data) => {
-    draw = new Draw({
-      view
-    })
+    draw = new Draw({ view })
 
-    const { store } = data
+    const { mapStore } = data
 
     let createPoint = function (event) {
       if (draw) {
@@ -131,12 +129,12 @@ export default {
           return false
         }
 
-        store.dispatch('map/setLocateData', {
+        mapStore.setLocateData({
           lon: coordinates[0],
           lat: coordinates[1]
         })
 
-        store.dispatch('map/setStartGetLocateCoord', false)
+        mapStore.setStartGetLocateCoord(false)
 
         ElMessage.success('已成功获取坐标信息')
       }
@@ -196,12 +194,21 @@ export default {
               new SpatialReference({ wkid: SPATIAL_REFERENCE_WKID })
             )
 
+            // 自定义定位图标
+            // const symbol = {
+            //   type: 'picture-marker',
+            //   url: locateImg,
+            //   width: '40px',
+            //   height: '40px'
+            // }
+
             const symbol = {
-              type: 'picture-marker',
-              url: locateImg,
+              color: 'red',
+              type: 'simple-marker',
               width: '40px',
               height: '40px'
             }
+
             let picGraphic = new Graphic(newPoint, symbol)
 
             let popupTemplate = new PopupTemplate({
