@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, watch, inject } from 'vue'
-// import { useMapStore } from '@/store'
 
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
@@ -13,8 +12,6 @@ import mapEvents from '@/common/mapEvents/index.js'
 // 地图
 import map from '@/common/map/index.js'
 import layers from '@/common/map/layers.js'
-
-// const mapStore = useMapStore()
 
 const { mapStore, mapEvent, mapCenterPoint, mapViewConfig } = map()
 
@@ -49,7 +46,6 @@ watch(
       return events.forEach((e) => {
         const { event, data } = e
 
-        console.log(event, data)
         currentMapConfig = map2D
 
         mapEvents()[event](currentMapConfig.view, data, mapViewType.value)
@@ -186,12 +182,8 @@ defineExpose({ onSetScale })
 <template>
   <div class="map-container">
     <div :id="map2D.id" :class="{ hide: mapViewType !== '2D' }"></div>
-
-    <!-- <div style="position: absolute">dasdadad</div> -->
-    <!-- <Screenshot @close="onCloseScreenshot" /> -->
   </div>
   <Screenshot @close="onCloseScreenshot" />
-  <!-- <div style="position: absolute">dasdadad</div> -->
 </template>
 
 <style lang="scss" scoped>
@@ -202,10 +194,6 @@ defineExpose({ onSetScale })
   width: 100%;
   height: 100vh;
   display: flex;
-
-  &.hide {
-    display: none;
-  }
 }
 </style>
 
@@ -224,7 +212,6 @@ defineExpose({ onSetScale })
   .esri-component {
     border-radius: 4px !important;
     overflow: hidden;
-    // box-shadow: $map-box-shadow !important;
     font-weight: bold !important;
     color: #666666 !important;
   }
