@@ -1,6 +1,6 @@
 <script setup>
 import { ref, provide, reactive } from 'vue'
-import ArcMap from '@/components/map/index.vue'
+import MapView from '@/components/map/MapView/index.vue'
 import UtilsPanel from '@/components/map/UtilsPanel/index.vue'
 import MapInfo from '@/components/map/MapInfo/index.vue'
 import { ElMessage } from 'element-plus'
@@ -22,22 +22,6 @@ const coordInfo = reactive({
   heading: 0,
   scale: 50000,
   locate: ''
-})
-
-// 卷帘工具
-const swipePanel = ref({
-  visible: false,
-  panel: null,
-  index: -1,
-  minimize: false
-})
-
-// 分屏工具
-const splitScreen = ref({
-  visible: false,
-  panel: null,
-  index: -1,
-  minimize: false
 })
 
 // 是否折叠地图资源面板
@@ -65,7 +49,7 @@ provide('getFixedHeader', false)
 
 <template>
   <div class="map-index-container">
-    <ArcMap ref="mapRef"></ArcMap>
+    <MapView ref="mapRef"></MapView>
 
     <!-- 地图信息面板 -->
     <MapInfo

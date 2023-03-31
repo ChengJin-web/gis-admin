@@ -1,10 +1,9 @@
-/*
- * 模块 : 地图工具栏相关
- * 作者 : 罗永梅（381612175@qq.com）
- * 日期 : 2020-07-30
- * 版本 : version 1.0
+/**
+ * @moduleName 地图工具栏相关
+ * @author Jin Cheng
+ * @description
+ * @date 2023-03-31
  */
-
 export default function () {
   /**
    * 判断工具是否禁止

@@ -19,13 +19,17 @@ export default {
 
     view.graphics.removeAll()
 
-    if (view.map.layers && view.map.layers.length) {
-      const layers = view.map.layers.items
-      layers.forEach(function (layer) {
-        if (layer.type === 'graphics') {
-          layer.graphics.removeAll()
-        }
-      })
-    }
+    // if (view.map.layers && view.map.layers.length) {
+    // const layers = view.map.layers.items
+    // layers.forEach(function (layer) {
+    //   if (layer.type === 'graphics') {
+    //     layer.graphics.removeAll()
+    //   }
+    // })
+    // }
+
+    // 上面注释代码的优化
+    const graphicsLayers = view.map.layers.items.filter((layer) => layer.type === 'graphics')
+    graphicsLayers.forEach((layer) => layer.graphics.removeAll())
   }
 }

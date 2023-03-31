@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, watch, inject } from 'vue'
+import { ElLoading } from 'element-plus'
 
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
@@ -17,6 +18,9 @@ const { mapStore, mapEvent, mapCenterPoint, mapViewConfig } = map()
 
 const { imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer, graphicsLayer } =
   layers()
+
+// 地图加载loading
+let loading = null
 
 // 获取顶级组件传递的值：当前地图视图是2D或者3D
 const mapViewType = inject('getMapViewType')
@@ -68,6 +72,12 @@ onMounted(() => {
  * 初始化地图
  */
 const initMap = () => {
+  loading = ElLoading.service({
+    lock: true,
+    text: '地图加载中...',
+    background: 'rgba(0, 0, 0, 0.5)'
+  })
+
   const layerList = [imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer]
 
   arcgisMap = createMap(layerList)
@@ -122,6 +132,10 @@ const createView = (params) => {
 
   setViewMouseKeyEvent(view)
 
+  view.when(() => {
+    console.log('地图加载成功')
+    loading.close()
+  })
   return view
 }
 

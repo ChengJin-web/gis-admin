@@ -14,22 +14,6 @@ export default function () {
   const route = useRoute()
   const router = useRouter()
   const mapStore = useMapStore()
-  //   const store = useStore()
-
-  // 页面加载
-  //   const pageLoading = computed(() => store.getters.pageLoading)
-
-  // 地图全局数据
-  //   const mapData = computed(() => store.getters.mapData)
-
-  /**
-   * 设置页面加载Loading
-   *
-   * @param {String} val 加载值
-   */
-  //   function setPageLoading(val) {
-  //     store.dispatch('app/setPageLoading', val)
-  //   }
 
   /**
    * 显示开发提示框
@@ -39,48 +23,6 @@ export default function () {
       confirmButtonText: '确定'
     })
   }
-
-  /**
-   * 返回上一页
-   */
-  function goBack() {
-    router.go(-1)
-  }
-
-  /**
-   * 跳转页面路径
-   *
-   * @param {String} path 路径
-   */
-  function toPage(path) {
-    router.push({ path })
-  }
-
-  /**
-   * 修改配置
-   *
-   * @param {*} key 键
-   * @param {*} value 值
-   */
-  //   const changeSettings = (key, value) => {
-  //     store.dispatch('settings/changeSetting', {
-  //       key,
-  //       value
-  //     })
-  //   }
-
-  /**
-   * 修改地图全局数据
-   *
-   * @param {*} key 键
-   * @param {*} value 值
-   */
-  //   const changeMapData = (key, value) => {
-  //     store.dispatch('map/changeMapData', {
-  //       key,
-  //       value
-  //     })
-  //   }
 
   /**
    * 地图事件派遣
@@ -105,15 +47,7 @@ export default function () {
     route,
     router,
     mapStore,
-    // store,
-    // pageLoading,
-    // mapData,
-    // setPageLoading,
     showDevMessage,
-    goBack,
-    toPage,
-    // changeSettings,
-    // changeMapData,
     dispatchMapEvent
   }
 }

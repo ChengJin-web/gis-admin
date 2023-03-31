@@ -6,7 +6,7 @@ import router from './router'
 
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
-import 'element-plus/theme-chalk/el-message.css'
+import 'element-plus/dist/index.css'
 
 // 初始化指令
 import initDirectives from './directives'
