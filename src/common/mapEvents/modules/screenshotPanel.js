@@ -1,17 +1,19 @@
 /**
  * 打印截图工具相关事件
  */
+
+// 拖动处理程序
 let dragHandler = null
 // 是否激活截图按钮
 let isSelectedScreen = false
 
-// creates an image that will be appended to the DOM
-// so that users can have a preview of what they will download
+// 创建一个将被追加到DOM的图像
+// 这样用户就可以预览他们将要下载的内容
 function showPreview(screenshot) {
   const screenshotContainer = document.getElementById('screenshotContainer')
   screenshotContainer.classList.remove('hide')
 
-  // add the screenshot dataUrl as the src of an image element
+  // 添加截图dataUrl作为图像元素的src
   if (screenshot.data.width > 10 && screenshot.data.height > 10) {
     const screenshotImage = document.getElementsByClassName('screenshot-img')[0]
     screenshotImage.width = screenshot.data.width
@@ -23,31 +25,36 @@ function showPreview(screenshot) {
 // returns a new image created by adding a custom text to the webscene image
 function getImageWithText(screenshot, text) {
   const imageData = screenshot.data
-  // to add the text to the screenshot we create a new canvas element
+  // 为了将文本添加到截图中，我们创建了一个新的canvas元素
   const canvas = document.createElement('canvas')
   const context = canvas.getContext('2d')
   canvas.height = imageData.height
   canvas.width = imageData.width
 
-  // add the screenshot data to the canvas
+  // 将截图数据添加到画布中
   context.putImageData(imageData, 0, 0)
   context.font = '20px Arial'
   context.fillStyle = '#333333'
   context.fillRect(0, imageData.height - 42, context.measureText(text).width + 20, 30)
 
-  // add the text from the textInput element
+  // 添加textInput元素中的文本
   context.fillStyle = '#fff'
   context.fillText(text, 10, imageData.height - 20)
 
   return canvas.toDataURL()
 }
-//下载截图
+
+/**
+ * url下载图片
+ * @param {string} filename 文件名称
+ * @param {string} dataUrl  文件地址
+ */
 function downloadImage(filename, dataUrl) {
-  // the download is handled differently in Microsoft browsers
-  // because the download attribute for <a> elements is not supported
+  // 在微软浏览器中处理下载方式不同
+  // 因为<a>元素的下载属性不受支持
   if (!window.navigator.msSaveOrOpenBlob) {
-    // in browsers that support the download attribute
-    // a link is created and a programmatic click will trigger the download
+    //在支持下载属性的浏览器中
+    //一个链接被创建，一个编程点击将触发下载
     const element = document.createElement('a')
     element.setAttribute('href', dataUrl)
     element.setAttribute('download', filename)
@@ -56,7 +63,7 @@ function downloadImage(filename, dataUrl) {
     element.click()
     document.body.removeChild(element)
   } else {
-    // for MS browsers convert dataUrl to Blob
+    //为MS浏览器转换dataUrl为Blob
     const byteString = atob(dataUrl.split(',')[1])
     const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0]
     const ab = new ArrayBuffer(byteString.length)
@@ -65,7 +72,7 @@ function downloadImage(filename, dataUrl) {
       ia[i] = byteString.charCodeAt(i)
     }
     const blob = new Blob([ab], { type: mimeString })
-    // download file
+    // 下载文件
     window.navigator.msSaveOrOpenBlob(blob, filename)
   }
 }
@@ -95,7 +102,7 @@ export default {
    * @param {*} view 视图
    */
   onOpenScreenShot: (view) => {
-    console.log('展开截图面板')
+    console.log('展开截图面板', view)
   },
 
   /**
@@ -131,7 +138,7 @@ export default {
   onScreenShot: (view, data) => {
     let area = null
     if (!isSelectedScreen) {
-      console.log('激活截图工具')
+      console.log('激活截图工具', data)
       var body = document.querySelector('body')
       body.style.cursor = 'crosshair'
       // view.container.classList.add('crosshair')

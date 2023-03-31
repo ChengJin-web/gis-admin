@@ -22,7 +22,7 @@ export default {
    * @param {*} data 传递数据
    */
   onOpenLocate: (view, data) => {
-    console.log('展开定位工具面板')
+    console.log('展开定位工具面板', view, data)
   },
 
   /**

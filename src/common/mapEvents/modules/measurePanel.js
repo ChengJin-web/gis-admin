@@ -16,7 +16,7 @@ export default {
    * @param {*} view 视图
    */
   onOpenMeasure: (view) => {
-    console.log('展开量算工具面板')
+    console.log('展开量算工具面板', view)
   },
 
   /**

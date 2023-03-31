@@ -1,9 +1,10 @@
-/*
- * 模块 : 地图操作事件模块
- * 作者 :
- * 日期 : 2021-06-30
- * 版本 : version 1.0
+/**
+ * @moduleName 地图操作事件模块
+ * @author Jin Cheng
+ * @description
+ * @date 2023-03-31
  */
+
 const eventsModules = import.meta.globEager('./modules/*.js')
 
 export default function () {
