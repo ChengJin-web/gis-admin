@@ -411,16 +411,40 @@ export function blobToDataURI(blob, callback) {
  * @param {*} blob
  * @param {*} filname 文件名
  */
-export function dataURLtoFile(dataurl, filename) {
-  var arr = dataurl.split(','),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n)
-  while (n--) {
-    u8arr[n] = bstr.charCodeAt(n)
+// export function dataURLtoFile(dataurl, filename) {
+//   var arr = dataurl.split(','),
+//     mime = arr[0].match(/:(.*?);/)[1],
+//     bstr = atob(arr[1]),
+//     n = bstr.length,
+//     u8arr = new Uint8Array(n)
+//   while (n--) {
+//     u8arr[n] = bstr.charCodeAt(n)
+//   }
+//   return new File([u8arr], filename, { type: mime })
+// }
+
+/**
+ * base64转换为file
+ *
+ * @param {*} base64
+ * @param {*} filname 文件名
+ * @param {*} mimeType 指定生成的 File 对象的 MIME 类型
+ */
+export function base64toFile(base64, filename, mimeType) {
+  mimeType = mimeType || ''
+  const byteCharacters = atob(base64)
+  const byteArrays = []
+  for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+    const slice = byteCharacters.slice(offset, offset + 1024)
+    const byteNumbers = new Array(slice.length)
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i)
+    }
+    const byteArray = new Uint8Array(byteNumbers)
+    byteArrays.push(byteArray)
   }
-  return new File([u8arr], filename, { type: mime })
+  const blob = new Blob(byteArrays, { type: mimeType })
+  return new File([blob], filename, { type: mimeType })
 }
 
 /**
@@ -476,37 +500,6 @@ export function objOmit(obj, uselessKeys) {
   const objCopy = { ...obj }
   uselessKeys.forEach((key) => delete objCopy[key])
   return objCopy
-}
-
-/**
- * 加密（简单模拟）
- *
- * @param {*} value 值
- */
-export function encrypt(value) {
-  let code = ''
-  for (let i = 0; i < value.length; i++) {
-    const r = value.charCodeAt(i)
-    code += String.fromCharCode(r + 2)
-  }
-  // 对字符串进行特殊字符编码，分号（;）、逗号（,）、等号（=）以及空格问题
-  return escape(code)
-}
-
-/**
- * 解密（简单模拟）
- *
- * @param {*} value 值
- */
-export function decrypt(value) {
-  // 对字符串进行特殊字符解码，分号（;）、逗号（,）、等号（=）以及空格问题
-  value = unescape(value)
-  let correct = ''
-  for (let i = 0; i < value.length; i++) {
-    const r = value.charCodeAt(i)
-    correct += String.fromCharCode(r - 2)
-  }
-  return correct
 }
 
 /**
@@ -585,20 +578,6 @@ export function getInfoByIDCard(IDCard) {
 }
 
 /**
- * 获取页面标题
- *
- * @param {*} pageTitle 页面标题
- */
-// export function getPageTitle(pageTitle) {
-//     const title = settings.sysTitle || "XLONG家里蹲地图系统";
-
-//     if (pageTitle) {
-//         return `${pageTitle} - ${title}`;
-//     }
-//     return `${title}`;
-// }
-
-/**
  * 根据指定字段获取数组数据的索引
  * @param {*} value 判断值
  * @param {*} data 数据
@@ -607,13 +586,4 @@ export function getInfoByIDCard(IDCard) {
  */
 export function findDataIndex(data, value, key = 'id') {
   return data.findIndex((e) => e[key] === value)
-}
-
-/**
- * 获取缓存数据(数组类型)
- * @param {*} itemName 名称
- * @returns array 返回数组
- */
-export function getCacheArray(itemName) {
-  return getLocalS(itemName) ? JSON.parse(getLocalS(itemName)) : []
 }
