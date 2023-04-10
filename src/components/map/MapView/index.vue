@@ -28,8 +28,6 @@ const mapViewType = inject('getMapViewType')
 // 坐标信息
 const coordInfo = inject('getCoordInfo')
 
-let arcgisMap = null
-
 // 2D地图配置
 let map2D = {
   id: 'map2D',
@@ -78,22 +76,8 @@ const initMap = () => {
     background: 'rgba(0, 0, 0, 0.5)'
   })
 
-  const layerList = [imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer]
+  const layerList = [vectorBasemapGroupLayer, imageBasemapLayer, terrainBasemapNoteGroupLayer]
 
-  arcgisMap = createMap(layerList)
-
-  map2D.view = createView({
-    map: arcgisMap,
-    ...mapViewConfig(map2D.id)
-  })
-}
-
-/**
- * 创建地图
- *
- * @param {*} layerList 图层列表
- */
-const createMap = (layerList) => {
   const basemap = new Basemap({
     baseMapLayers: layerList
   })
@@ -106,18 +90,11 @@ const createMap = (layerList) => {
     map.add(e)
   })
 
-  return map
-}
-
-/**
- * 创建视图
- *
- * @param {*} params 视图参数
- * @param {*} type 视图类型
- */
-const createView = (params) => {
   let view = new MapView({
-    ...params,
+    ...{
+      map: map,
+      ...mapViewConfig(map2D.id)
+    },
     center: mapCenterPoint,
     zoom: finalViewZoom,
     scale: coordInfo.scale
@@ -132,11 +109,12 @@ const createView = (params) => {
 
   setViewMouseKeyEvent(view)
 
+  map2D.view = view
+
   view.when(() => {
     console.log('地图加载成功')
     loading.close()
   })
-  return view
 }
 
 // 地图鼠标/键盘事件

@@ -11,7 +11,6 @@
     </template>
     <div class="more-utils__title">
       <span class="title">工具箱</span>
-      <!-- <span class="settings pointer" @click="onCustomUtil">自定义工具栏</span> -->
     </div>
     <div class="more-utils__content">
       <div v-for="(item, index) in utilList" :key="'other-utils' + index">
@@ -63,7 +62,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['click-util', 'click-custom'])
+const emit = defineEmits(['click-util'])
 
 const { isUtilDisabled, isUtilActive } = utilsPanel()
 
@@ -101,13 +100,6 @@ const setClassStyles = ({ enable2D, enable3D, component }) => {
 
   return classStyles
 }
-
-// 自定义工具栏
-// const onCustomUtil = () => {
-//   visible.value = false
-
-//   emit('click-custom', true)
-// }
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/more-utils.scss';

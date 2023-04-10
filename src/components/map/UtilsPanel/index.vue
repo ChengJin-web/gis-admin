@@ -12,13 +12,11 @@
               :class="setClassStyles(item)"
               @click="onClickUtil(item, item.eventSuffix, item.panelID)"
             >
-              <i class="util-list-item__icon" :class="item.classStyles"></i>
               <span class="util-list-item__name">{{ item.utilName }}</span>
             </div>
           </template>
 
           <div class="util-list-item" @click="onClearScreen()">
-            <i class="util-list-item__icon iconfont icon-clear"></i>
             <span class="util-list-item__name">清屏</span>
           </div>
 
@@ -28,10 +26,8 @@
             :highlight-panels="highlightPanels"
             :util-list="utilList"
             @click-util="onClickUtilBoxUtils"
-            @click-custom="setCustomUtilDialogVisible(true)"
           >
             <div class="util-list-item">
-              <i class="util-list-item__icon iconfont icon-gongjuxiang"></i>
               <span class="util-list-item__name">工具箱</span>
             </div>
           </MoreUtils>
@@ -86,7 +82,7 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, reactive, onMounted, inject, nextTick } from 'vue'
+import { ref, inject, nextTick } from 'vue'
 // 通用模块
 import common from '@/common'
 import utilsPanel from '@/common/utilsPanel.js'
@@ -119,27 +115,17 @@ const commonUtils = ref([
   }
 ])
 
-// 工具面板列表
+// 工具面板参数列表 ---
 // {
-//   // 对应组件
-//   component: "MeasurePanel",
-//   // 图标样式
-//   classStyles: "iconfont icon-liangsuan",
-//   // 工具名称
-//   utilName: "量算",
-//   // 工具激活/高亮状态
-//   utilActive: false,
-//   // 传递事件后缀名, 例如 "onOpenMeasure" 和 "onRemoveMeasure"
-//   eventSuffix: "Measure",
-//   // 工具应添加容器的ID
-//   panelID: null,
-//   // 2D模式下是否可用
-//   enable2D: true,
-//   // 3D模式下是否可用
-//   enable3D: true,
-//   // 工具是否满屏展示
-//   fullScreen: false
+//   component: "MeasurePanel", // 对应组件
+//   classStyles: "iconfont icon-liangsuan", // 图标样式
+//   utilName: "量算",  // 工具名称
+//   utilActive: false, // 工具激活/高亮状态
+//   eventSuffix: "Measure", // 传递事件后缀名, 例如 "onOpenMeasure" 和 "onRemoveMeasure"
+//   panelID: null, // 工具应添加容器的ID
+//   fullScreen: false // 工具是否满屏展示
 // }
+
 const panelList = ref([
   {
     component: 'MeasurePanel',
@@ -162,11 +148,7 @@ const panelList = ref([
     classStyles: 'iconfont icon-celianggongju',
     utilName: '量算',
     utilActive: false,
-    eventSuffix: 'Measure',
-    panelID: null,
-    enable2D: true,
-    enable3D: true,
-    fullScreen: false
+    eventSuffix: 'Measure'
   },
   {
     component: 'DrawPanel',
@@ -174,10 +156,7 @@ const panelList = ref([
     utilName: '绘制',
     utilActive: false,
     eventSuffix: 'Draw',
-    panelID: 'drawPanel',
-    enable2D: true,
-    enable3D: true,
-    fullScreen: false
+    panelID: 'drawPanel'
   },
   {
     component: 'ScreenshotPanel',
@@ -185,10 +164,7 @@ const panelList = ref([
     utilName: '截图',
     utilActive: false,
     eventSuffix: 'ScreenShot',
-    panelID: null,
-    enable2D: true,
-    enable3D: true,
-    fullScreen: false
+    panelID: null
   },
   {
     component: 'LocatePanel',
@@ -196,78 +172,58 @@ const panelList = ref([
     utilName: '定位',
     utilActive: false,
     eventSuffix: 'Locate',
-    panelID: 'locatePanel',
-    enable2D: true,
-    enable3D: true,
-    fullScreen: false
+    panelID: 'locatePanel'
   }
 ])
 
 // 工具列表
-const utilList = ref([])
+const utilList = ref([
+  {
+    title: '所有工具',
+    children: [
+      {
+        component: 'MeasurePanel',
+        classStyles: 'iconfont icon-celianggongju',
+        utilName: '量算',
+        utilActive: false,
+        eventSuffix: 'Measure',
+        panelID: null
+      },
+      {
+        component: 'DrawPanel',
+        classStyles: 'iconfont icon-huizhi',
+        utilName: '绘制',
+        utilActive: false,
+        eventSuffix: 'Draw',
+        panelID: 'drawPanel'
+      },
+      {
+        component: 'ScreenshotPanel',
+        classStyles: 'iconfont icon-jietu',
+        utilName: '截图',
+        utilActive: false,
+        eventSuffix: 'ScreenShot',
+        panelID: null
+      },
+      {
+        component: 'LocatePanel',
+        classStyles: 'iconfont icon-locate',
+        utilName: '定位',
+        utilActive: false,
+        eventSuffix: 'Locate',
+        panelID: 'locatePanel'
+      }
+    ]
+  }
+])
 
 // 高亮面板
 const highlightPanels = ref([])
 
-// 自定义工具弹窗
-const customUtilDialog = reactive({
-  visible: false
-})
-
-onMounted(() => {
-  let data = [
-    {
-      title: '常用工具',
-      children: [
-        {
-          component: 'MeasurePanel',
-          classStyles: 'iconfont icon-celianggongju',
-          utilName: '量算',
-          utilActive: false,
-          eventSuffix: 'Measure',
-          panelID: null,
-          enable2D: true,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'DrawPanel',
-          classStyles: 'iconfont icon-huizhi',
-          utilName: '绘制',
-          utilActive: false,
-          eventSuffix: 'Draw',
-          panelID: 'drawPanel',
-          enable2D: true,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'ScreenshotPanel',
-          classStyles: 'iconfont icon-jietu',
-          utilName: '截图',
-          utilActive: false,
-          eventSuffix: 'ScreenShot',
-          panelID: null,
-          enable2D: true,
-          enable3D: true,
-          fullScreen: false
-        },
-        {
-          component: 'LocatePanel',
-          classStyles: 'iconfont icon-locate',
-          utilName: '定位',
-          utilActive: false,
-          eventSuffix: 'Locate',
-          panelID: 'locatePanel',
-          enable2D: true,
-          enable3D: true,
-          fullScreen: false
-        }
-      ]
-    }
-  ]
-  utilList.value = data
-})
+// // 自定义工具弹窗
+// const customUtilDialog = reactive({
+//   visible: false
+// })
 
 /**
  * 工具点击事件
@@ -295,9 +251,10 @@ const onClickUtilBoxUtils = ({ panel, eventSuffix, panelID }) => {
 }
 
 // 自定义工具栏可见性
-const setCustomUtilDialogVisible = (val) => {
-  customUtilDialog.visible = val
-}
+// @click-custom="setCustomUtilDialogVisible(true)"
+// const setCustomUtilDialogVisible = (val) => {
+//   customUtilDialog.visible = val
+// }
 
 // 设置样式
 const setClassStyles = ({ enable2D, enable3D, component }) => {
@@ -427,7 +384,6 @@ defineExpose({ setPanelVisble })
     background: #fff;
     border-radius: 4px;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
-    height: 40px;
     overflow: hidden;
   }
 
