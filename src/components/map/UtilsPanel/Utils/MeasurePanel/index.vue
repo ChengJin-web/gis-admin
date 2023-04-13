@@ -29,7 +29,7 @@
 import { ref, toRaw, computed } from 'vue'
 import { useMapStore } from '@/store'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
-import measurePanel from '../../../../../common/mapEvents/modules/measurePanel.js'
+import measurePanel from '@/common/mapEvents/modules/measurePanel.js'
 
 const mapStore = useMapStore()
 
