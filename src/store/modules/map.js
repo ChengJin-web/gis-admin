@@ -2,13 +2,6 @@ import { defineStore } from 'pinia'
 const useMapStore = defineStore('map', {
   state: () => ({
     view: null,
-    // 地图操作事件
-    mapEvent: [
-      // {
-      //   event: "",  // 事件名
-      //   data: null, // 传递数据
-      // },
-    ],
     // 是否开启拾取坐标
     startGetLocateCoord: false,
     // 定位数据
@@ -22,9 +15,6 @@ const useMapStore = defineStore('map', {
   actions: {
     setView(view) {
       this.view = view
-    },
-    changeMapEvent(mapEvent) {
-      this.mapEvent = mapEvent
     },
     setStartScreenshot(startScreenshot) {
       this.startScreenshot = startScreenshot
