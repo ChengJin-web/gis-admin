@@ -135,10 +135,10 @@ export default {
    * 开启截图工具
    * @param {*} view 视图
    */
-  onScreenShot: (view, data) => {
+  onScreenShot: (view) => {
     let area = null
     if (!isSelectedScreen) {
-      console.log('激活截图工具', data)
+      console.log('激活截图工具')
       var body = document.querySelector('body')
       body.style.cursor = 'crosshair'
       // view.container.classList.add('crosshair')
@@ -172,7 +172,7 @@ export default {
           dragHandler.remove()
           // the screenshot of the selected area is taken
           view.takeScreenshot({ area: area, format: 'png' }).then((screenshot) => {
-            console.log(screenshot)
+            // console.log(screenshot)
             // display a preview of the image
             showPreview(screenshot)
 

@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch, inject } from 'vue'
+import { onMounted, inject } from 'vue'
 import { ElLoading } from 'element-plus'
 
 import Map from '@arcgis/core/Map'
@@ -9,15 +9,13 @@ import { useMapStore } from '@/store'
 
 // 组件
 import Screenshot from '@/components/map/Screenshot/index.vue'
-// 地图事件
-import mapEvents from '@/common/mapEvents/index.js'
 // 地图
 import map from '@/common/map/index.js'
 import layers from '@/common/map/layers.js'
 
 const mapStore = useMapStore()
 
-const { mapEvent, mapCenterPoint, mapViewConfig } = map()
+const { mapCenterPoint, mapViewConfig } = map()
 const { imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer, graphicsLayer } =
   layers()
 
@@ -41,27 +39,6 @@ let currentMapConfig = null
 
 // 最终视图缩放大小
 let finalViewZoom = 10
-
-// 监听地图事件传递
-watch(
-  () => mapEvent.value,
-  (events) => {
-    if (events.length) {
-      return events.forEach((e) => {
-        const { event, data } = e
-
-        currentMapConfig = map2D
-
-        mapEvents()[event](currentMapConfig.view, data, mapViewType.value)
-
-        // 放大缩小
-        if (event === 'onZoomIn' || event === 'onZoomOut') {
-          changeViewScale(Math.round(currentMapConfig.view.scale))
-        }
-      })
-    }
-  }
-)
 
 onMounted(() => {
   currentMapConfig = map2D

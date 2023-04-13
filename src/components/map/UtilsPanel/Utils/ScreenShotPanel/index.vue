@@ -20,7 +20,7 @@
 
 <script setup>
 import { useMapStore } from '@/store'
-import { computed } from 'vue'
+import { computed, toRaw } from 'vue'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
 import screenshotPanel from '@/common/mapEvents/modules/screenshotPanel.js'
 
@@ -49,6 +49,7 @@ const mapStore = useMapStore()
 
 //  获取顶级组件传递的值：是否开启截图
 const startScreenshot = computed(() => mapStore.startScreenshot)
+const view = computed(() => mapStore.view)
 
 // 当前面板ID
 const panelID = 'screenshotPanel'
@@ -67,7 +68,7 @@ const onClose = () => {
 // 开启截图
 const onStartScreenshot = () => {
   mapStore.setStartScreenshot(true)
-  screenshotPanel.onScreenShot()
+  screenshotPanel.onScreenShot(toRaw(view.value))
 }
 </script>
 <style lang="scss">
