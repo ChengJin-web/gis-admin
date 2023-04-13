@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { ref, watch, toRaw, computed } from 'vue'
+import { ref, toRaw, computed } from 'vue'
 import { useMapStore } from '@/store'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
 import measurePanel from '../../../../../common/mapEvents/modules/measurePanel.js'
