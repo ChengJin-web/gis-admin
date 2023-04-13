@@ -1,7 +1,7 @@
 <template>
   <UtilPanel
     width="300px"
-    :title="`${mapViewType}${panel.utilName}工具`"
+    :title="`${panel.utilName}工具`"
     :panel-id="panelID"
     :show-help-icon="false"
     @on-click-close="onClose"
@@ -47,10 +47,6 @@ const props = defineProps({
   index: {
     type: Number,
     default: 0
-  },
-  mapViewType: {
-    type: String,
-    default: '3D'
   }
 })
 
@@ -59,14 +55,6 @@ const emit = defineEmits(['close'])
 // 当前激活按钮
 const activeButton = ref(null)
 const panelID = 'measurePanel'
-
-watch(
-  () => props.mapViewType,
-  () => {
-    // 切换2/3D视图时取消原有激活状态
-    activeButton.value = null
-  }
-)
 
 // 关闭面板
 const onClose = () => {

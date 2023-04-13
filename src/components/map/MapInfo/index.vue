@@ -4,34 +4,26 @@
       <div><span>地图信息</span></div>
       <el-icon><CaretBottom /></el-icon>
     </div>
-    <div
-      v-if="!foldMapInfoPanel"
-      class="map-info-panel__content"
-      :class="{ 'show-header': fixedHeader }"
-    >
-      <div class="title">
-        当前视图<span class="normal ml-10"
-          ><el-tag type="success">{{ mapViewType }}视图</el-tag></span
-        >
-      </div>
-      <div class="title">鼠标位置</div>
+    <div v-if="!foldMapInfoPanel" class="map-info-panel__content">
       <div class="content">
+        <div class="title">鼠标位置</div>
         <span v-if="coordInfo.lon">经度：{{ coordInfo.lon }}</span>
         <span v-if="coordInfo.lat">，纬度：{{ coordInfo.lat }}</span>
         <br />
         <span v-if="coordInfo.locate">当前鼠标坐落：{{ coordInfo.locate }}</span>
       </div>
       <div class="title">
-        <span v-if="coordInfo.scale"
-          >地图比例 <span class="normal">1:{{ coordInfo.scale }}</span></span
-        >
+        <span v-if="coordInfo.scale">
+          <span>地图比例</span>
+          <span class="normal">1:{{ coordInfo.scale }}</span>
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, inject, watch } from 'vue'
+import { inject } from 'vue'
 
 defineProps({
   // 是否折叠地图信息面板
@@ -41,25 +33,10 @@ defineProps({
   }
 })
 
-// 是否显示系统固定头部
-const fixedHeader = inject('getFixedHeader')
-// 当前视图类型
-const mapViewType = inject('getMapViewType')
 // 坐标信息
 const coordInfo = inject('getCoordInfo')
-// 地图底图
-const basemap = inject('getBasemap')
-// 最佳比例
-const bestScale = ref(20000)
 
-const emit = defineEmits(['click-fold', 'map-set-view-scale'])
-
-watch(
-  () => basemap.value,
-  (val) => {
-    bestScale.value = val === 'terrain' ? 30000 : 20000
-  }
-)
+const emit = defineEmits(['click-fold'])
 
 // 收起面板
 const setContentVisible = (val) => {

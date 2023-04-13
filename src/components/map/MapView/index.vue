@@ -22,9 +22,6 @@ const { imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer
 // 地图加载loading
 let loading = null
 
-// 获取顶级组件传递的值：当前地图视图是2D或者3D
-const mapViewType = inject('getMapViewType')
-
 // 坐标信息
 const coordInfo = inject('getCoordInfo')
 
@@ -90,7 +87,7 @@ const initMap = () => {
 
   map2D.view = view
 
-  mapStore.setView(currentMapConfig.view)
+  mapStore.setView(view)
 
   view.when(() => {
     console.log('地图加载成功')
@@ -100,22 +97,6 @@ const initMap = () => {
 
 // 地图鼠标/键盘事件
 const setViewMouseKeyEvent = (view) => {
-  // 2D视图下，不可以用WASD控制方向
-  view.on('key-down', (e) => {
-    if (mapViewType.value == '2D') {
-      const forbidKeys = ['a', 's', 'd', 'w', 'A', 'S', 'D', 'W']
-      if (forbidKeys.indexOf(e.key) !== -1) {
-        e.stopPropagation()
-      }
-    }
-  })
-
-  // view.on('drag', (e) => {
-  //   if (mapViewType.value == '3D') {
-  //     const { tilt, heading } = view.camera
-  //     changeCoordInfoTiltHeading(tilt, heading)
-  //   }
-  // })
   // 鼠标移动
   view.on('pointer-move', (e) => {
     let point = view.toMap({ x: e.x, y: e.y })
@@ -137,24 +118,16 @@ const changeViewScale = (scale) => {
   coordInfo.scale = scale
 }
 
-// 设置地图视图比例-父组件调用
-const onSetScale = (scale) => {
-  currentMapConfig.view.scale = scale
-}
-
 // 关闭截图功能
 const onCloseScreenshot = () => {
   currentMapConfig.view.container.classList.remove('screenshotCursor')
   mapStore.setStartScreenshot(false)
 }
-
-// 暴露方法给父组件调用
-defineExpose({ onSetScale })
 </script>
 
 <template>
   <div class="map-container">
-    <div :id="map2D.id" :class="{ hide: mapViewType !== '2D' }"></div>
+    <div :id="map2D.id"></div>
   </div>
   <Screenshot @close="onCloseScreenshot" />
 </template>

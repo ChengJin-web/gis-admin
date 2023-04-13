@@ -24,10 +24,6 @@ const props = defineProps({
   index: {
     type: Number,
     default: 0
-  },
-  mapViewType: {
-    type: String,
-    default: '3D'
   }
 })
 

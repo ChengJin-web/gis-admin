@@ -35,7 +35,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import utilsPanel from '@/common/utilsPanel.js'
 
 const props = defineProps({
   placement: {
@@ -45,11 +44,6 @@ const props = defineProps({
   trigger: {
     type: String,
     default: 'click'
-  },
-  // 当前地图视图为2D或者3D
-  mapViewType: {
-    type: String,
-    default: '3D'
   },
   // 高亮面板数组
   highlightPanels: {
@@ -63,8 +57,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['click-util'])
-
-const { isUtilActive } = utilsPanel()
 
 const visible = ref(false)
 
@@ -83,8 +75,8 @@ const onClickUtil = (panel, eventSuffix, panelID) => {
 // 设置样式
 const setClassStyles = ({ component }) => {
   let classStyles = 'more-util-list-item'
-
-  if (isUtilActive(props.highlightPanels, component)) {
+  const index = props.highlightPanels.findIndex((e) => e.component === component)
+  if (index >= 0) {
     classStyles += ' is-active'
   }
 

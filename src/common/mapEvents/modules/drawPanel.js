@@ -10,9 +10,8 @@ export default {
    * 绘制工具
    * @param {*} view 视图
    * @param {*} data 传递数据
-   * @param {*} mapViewType 当前视图类型是2D或3D
    */
-  onOpenDraw: (view, data, mapViewType) => {
+  onOpenDraw: (view, data) => {
     removeWidget(view, widget)
 
     if (!data || !data.panelID) {
@@ -27,7 +26,7 @@ export default {
     const panelContent = document.getElementById(panelID)
 
     const drawUtil = document.createElement('div')
-    drawUtil.id = `draw${mapViewType}`
+    drawUtil.id = 'draw'
 
     panelContent.appendChild(drawUtil)
 

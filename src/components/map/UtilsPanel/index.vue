@@ -1,5 +1,5 @@
 <template>
-  <div class="utils-panel" :class="{ 'show-header': fixedHeader }">
+  <div class="utils-panel">
     <div class="utils-panel-wrapper">
       <!-- 常用工具列表 -->
       <div class="util-list-wrapper">
@@ -22,7 +22,6 @@
 
           <!-- 工具箱 -->
           <MoreUtils
-            :map-view-type="mapViewType"
             :highlight-panels="highlightPanels"
             :util-list="utilList"
             @click-util="onClickUtilBoxUtils"
@@ -38,13 +37,7 @@
       <template v-if="panelList.length">
         <template v-for="(item, index) in panelList" :key="'util-panel' + index">
           <template v-if="item.utilActive">
-            <component
-              :is="item.component"
-              :panel="item"
-              :index="index"
-              :map-view-type="mapViewType"
-              @close="onClosePanel"
-            />
+            <component :is="item.component" :panel="item" :index="index" @close="onClosePanel" />
           </template>
         </template>
       </template>
@@ -82,9 +75,8 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, inject, nextTick, toRaw, computed } from 'vue'
-// 通用模块
-import utilsPanel from '@/common/utilsPanel.js'
+import { ref, nextTick, toRaw, computed } from 'vue'
+
 import { useMapStore } from '@/store'
 
 import drawPanel from '@/common/mapEvents/modules/drawPanel.js'
@@ -92,13 +84,6 @@ import clear from '@/common/mapEvents/modules/clear.js'
 
 const mapStore = useMapStore()
 const view = toRaw(computed(() => mapStore.view))
-
-const { isUtilActive } = utilsPanel()
-
-// 获取顶级组件传递的值：当前地图视图是2D或者3D
-const mapViewType = inject('getMapViewType')
-// 获取顶级组件传递的值：是否显示固定头部
-const fixedHeader = inject('getFixedHeader')
 
 // 固定常用工具
 const commonUtils = ref([
@@ -120,7 +105,7 @@ const commonUtils = ref([
   }
 ])
 
-// 工具面板参数列表 ---
+// --- 工具面板参数列表 ---
 // {
 //   component: "MeasurePanel", // 对应组件
 //   classStyles: "iconfont icon-liangsuan", // 图标样式
@@ -251,7 +236,8 @@ const onClickUtilBoxUtils = ({ panel, eventSuffix, panelID }) => {
 const setClassStyles = ({ component }) => {
   let classStyles = 'util-list-item'
 
-  if (isUtilActive(highlightPanels.value, component)) {
+  const index = highlightPanels.value.findIndex((e) => e.component === component)
+  if (index >= 0) {
     classStyles += ' is-active'
   }
   return classStyles

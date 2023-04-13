@@ -3,15 +3,8 @@ import { ref, provide, reactive } from 'vue'
 import MapView from '@/components/map/MapView/index.vue'
 import UtilsPanel from '@/components/map/UtilsPanel/index.vue'
 import MapInfo from '@/components/map/MapInfo/index.vue'
-import { ElMessage } from 'element-plus'
 // 地图实例
 const mapRef = ref(null)
-
-// 当前地图视图为2D或者3D
-const mapViewType = ref('2D')
-
-// 当前地图底图类型
-const basemap = ref('hybrid')
 
 // 坐标信息
 const coordInfo = reactive({
@@ -32,19 +25,7 @@ const onFoldMapInfoPanel = (val) => {
   foldMapInfoPanel.value = val
 }
 
-// 监听通过地图信息设置地图比例
-const onMapSetView = ({ scale }) => {
-  coordInfo.scale = scale
-  ElMessage.success(`已将地图比例调整至1:${scale}`)
-  // 调用子组件方法
-  mapRef.value.onSetScale(scale)
-}
-
-// 顶级组件通过provide传递给子孙组件
-provide('getMapViewType', mapViewType)
-provide('getBasemap', basemap)
 provide('getCoordInfo', coordInfo)
-provide('getFixedHeader', false)
 </script>
 
 <template>
@@ -52,11 +33,7 @@ provide('getFixedHeader', false)
     <MapView ref="mapRef"></MapView>
 
     <!-- 地图信息面板 -->
-    <MapInfo
-      :fold-map-info-panel="foldMapInfoPanel"
-      @click-fold="onFoldMapInfoPanel"
-      @map-set-view-scale="onMapSetView"
-    />
+    <MapInfo :fold-map-info-panel="foldMapInfoPanel" @click-fold="onFoldMapInfoPanel" />
 
     <!-- 工具栏 -->
     <UtilsPanel ref="utilsPanelRef" />
