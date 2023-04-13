@@ -12,9 +12,7 @@
       id="distanceButton"
       type="button"
       title="测量两点之间的距离"
-      @click="
-        onMeasureDistance(mapViewType === '2D' ? 'onMeasureDistance2D' : 'onMeasureDistance3D')
-      "
+      @click="onMeasureDistance('onMeasureDistance2D')"
     ></button>
     <button
       class="action-button esri-icon-measure-area"
@@ -22,16 +20,20 @@
       id="areaButton"
       type="button"
       title="计算面积"
-      @click="onMeasureArea(mapViewType === '2D' ? 'onMeasureArea2D' : 'onMeasureArea3D')"
+      @click="onMeasureArea('onMeasureArea2D')"
     ></button>
   </UtilPanel>
 </template>
 
 <script setup>
-import { watch } from 'vue'
-import { ref } from 'vue'
-import common from '@/common'
+import { ref, watch, toRaw, computed } from 'vue'
+import { useMapStore } from '@/store'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
+import measurePanel from '../../../../../common/mapEvents/modules/measurePanel.js'
+
+const mapStore = useMapStore()
+
+const view = toRaw(computed(() => mapStore.view))
 
 const props = defineProps({
   // 面板
@@ -54,7 +56,6 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { dispatchMapEvent } = common()
 // 当前激活按钮
 const activeButton = ref(null)
 const panelID = 'measurePanel'
@@ -84,18 +85,18 @@ const setActiveButton = (val) => {
 }
 
 // 测量距离
-const onMeasureDistance = (eventName) => {
+const onMeasureDistance = () => {
   setActiveButton('distance')
-  dispatchMapEvent(eventName, {
+  measurePanel.onMeasureDistance2D(toRaw(view.value), {
     panelID,
     activeButton: activeButton.value
   })
 }
 
 // 测量面积
-const onMeasureArea = (eventName) => {
+const onMeasureArea = () => {
   setActiveButton('area')
-  dispatchMapEvent(eventName, {
+  measurePanel.onMeasureArea2D(toRaw(view.value), {
     panelID,
     activeButton: activeButton.value
   })
@@ -104,9 +105,7 @@ const onMeasureArea = (eventName) => {
 
 <style lang="scss">
 #measureDistance2D,
-#measureArea2D,
-#measureDistance3D,
-#measureArea3D {
+#measureArea2D {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #eee;

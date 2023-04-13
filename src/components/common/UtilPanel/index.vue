@@ -1,26 +1,13 @@
 <template>
   <div v-drag class="util-panel" :style="{ width, top, right }">
     <div class="util-panel__header drag-move">
-      <span
-        ><span>{{ title }}</span>
-        <i
-          v-if="showHelpIcon"
-          class="el-icon-question ml-10"
-          title="帮助说明"
-          @click="onClickHelp"
-        ></i
-      ></span>
       <span>
-        <i
-          v-if="showMaxIcon"
-          class="iconfont icon-zuidahua mr-10"
-          title="窗口最大化"
-          @click="onClickMax"
-        ></i>
-
-        <el-icon class="el-icon-close" v-if="showCloseIcon" @click="onClickClose"
-          ><CloseBold
-        /></el-icon>
+        <span>{{ title }}</span>
+      </span>
+      <span>
+        <el-icon class="el-icon-close" v-if="showCloseIcon" @click="onClickClose">
+          <CloseBold />
+        </el-icon>
       </span>
     </div>
     <div v-if="showContent" :id="panelId" class="util-panel__content">
@@ -53,20 +40,10 @@ defineProps({
     type: String,
     default: '0'
   },
-  // 是否显示“帮助”按钮
-  showHelpIcon: {
-    type: Boolean,
-    default: true
-  },
   // 是否显示“关闭”按钮
   showCloseIcon: {
     type: Boolean,
     default: true
-  },
-  // 是否显示“窗口最大化”按钮
-  showMaxIcon: {
-    type: Boolean,
-    default: false
   },
   // 是否显示工具内容
   showContent: {
@@ -75,21 +52,11 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['on-click-help', 'on-click-close'])
-
-// 点击“说明”按钮
-const onClickHelp = () => {
-  emit('on-click-help')
-}
+const emit = defineEmits(['on-click-close'])
 
 // 点击“关闭”按钮
 const onClickClose = () => {
   emit('on-click-close')
-}
-
-// 点击“窗口最大化”按钮
-const onClickMax = () => {
-  emit('on-click-max')
 }
 </script>
 

@@ -64,7 +64,7 @@ const props = defineProps({
 
 const emit = defineEmits(['click-util'])
 
-const { isUtilDisabled, isUtilActive } = utilsPanel()
+const { isUtilActive } = utilsPanel()
 
 const visible = ref(false)
 
@@ -77,22 +77,12 @@ const visible = ref(false)
 const onClickUtil = (panel, eventSuffix, panelID) => {
   visible.value = false
 
-  const { enable2D, enable3D } = panel
-
-  if (isUtilDisabled(enable2D, enable3D, props.mapViewType)) {
-    return false
-  }
-
   emit('click-util', { panel, eventSuffix, panelID })
 }
 
 // 设置样式
-const setClassStyles = ({ enable2D, enable3D, component }) => {
+const setClassStyles = ({ component }) => {
   let classStyles = 'more-util-list-item'
-
-  if (isUtilDisabled(enable2D, enable3D, props.mapViewType)) {
-    classStyles += ' is-disabled'
-  }
 
   if (isUtilActive(props.highlightPanels, component)) {
     classStyles += ' is-active'

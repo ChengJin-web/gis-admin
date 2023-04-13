@@ -5,6 +5,7 @@ import { ElLoading } from 'element-plus'
 import Map from '@arcgis/core/Map'
 import MapView from '@arcgis/core/views/MapView'
 import Basemap from '@arcgis/core/Basemap'
+import { useMapStore } from '@/store'
 
 // 组件
 import Screenshot from '@/components/map/Screenshot/index.vue'
@@ -14,8 +15,9 @@ import mapEvents from '@/common/mapEvents/index.js'
 import map from '@/common/map/index.js'
 import layers from '@/common/map/layers.js'
 
-const { mapStore, mapEvent, mapCenterPoint, mapViewConfig } = map()
+const mapStore = useMapStore()
 
+const { mapEvent, mapCenterPoint, mapViewConfig } = map()
 const { imageBasemapLayer, vectorBasemapGroupLayer, terrainBasemapNoteGroupLayer, graphicsLayer } =
   layers()
 
@@ -110,6 +112,8 @@ const initMap = () => {
   setViewMouseKeyEvent(view)
 
   map2D.view = view
+
+  mapStore.setView(currentMapConfig.view)
 
   view.when(() => {
     console.log('地图加载成功')

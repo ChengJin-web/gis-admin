@@ -30,11 +30,13 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, toRaw } from 'vue'
 import { ElMessage } from 'element-plus'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
-import common from '@/common'
-// import locateImg from '@/assets/images/locate.png'
+import { useMapStore } from '@/store'
+import locatePanel from '@/common/mapEvents/modules/locatePanel.js'
+
+const mapStore = useMapStore()
 // 工具
 const props = defineProps({
   // 面板
@@ -57,13 +59,9 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { dispatchMapEvent, mapStore } = common()
-
-// 坐标信息
-// const locateData = computed(() => mapStore.getters.locateData)
-
 // 开始拾取坐标
 const startGetLocateCoord = computed(() => mapStore.startGetLocateCoord)
+const view = computed(() => mapStore.view)
 
 // 当前面板ID
 const panelID = 'locatePanel'
@@ -104,38 +102,22 @@ const onLocateTo = () => {
     symbol: {
       color: 'red',
       type: 'simple-marker'
-      // width: '40px',
-      // height: '40px'
     }
-    // symbol: {
-    //   type: 'picture-marker',
-    //   url: locateImg,
-    //   width: '40px',
-    //   height: '40px'
-    // }
   }
 
-  dispatchMapEvent([
-    {
-      event: 'onLocateToCoordAndMark',
-      data
-    },
-    {
-      event: 'onShowCoordMaker',
-      data
-    }
-  ])
+  locatePanel.onLocateToCoordAndMark(toRaw(view.value), data)
+  locatePanel.onShowCoordMaker(toRaw(view.value), data)
 }
 
 // 拾取坐标
 const onGetLocate = () => {
   mapStore.setStartGetLocateCoord(true)
-  dispatchMapEvent('onGetLocateCoord', { mapStore })
+  locatePanel.onGetLocateCoord(toRaw(view.value), { mapStore })
 }
 
 // 清除所有坐标标记
 const onClearCoordMarker = () => {
-  dispatchMapEvent('onClearCoordMarker')
+  locatePanel.onClearCoordMarker(toRaw(view.value))
   mapStore.setLocateData({ lon: 0, lat: 0 })
 }
 </script>

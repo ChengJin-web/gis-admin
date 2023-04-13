@@ -21,21 +21,10 @@
         <br />
         <span v-if="coordInfo.locate">当前鼠标坐落：{{ coordInfo.locate }}</span>
       </div>
-      <template v-if="mapViewType === '3D'">
-        <div class="title">视图方位</div>
-        <div class="content">
-          <span v-if="coordInfo.tilt">视角倾斜：{{ coordInfo.tilt }}°</span>
-          <span v-if="coordInfo.heading"> , 罗盘方位：{{ coordInfo.heading }}°</span>
-        </div>
-      </template>
       <div class="title">
         <span v-if="coordInfo.scale"
           >地图比例 <span class="normal">1:{{ coordInfo.scale }}</span></span
         >
-      </div>
-      <div class="content scale-content">
-        <el-button type="primary" @click="onLocateToNanning()">杭州市全幅</el-button>
-        <el-button type="primary" @click="setScale(bestScale)">最佳比例1:{{ bestScale }}</el-button>
       </div>
     </div>
   </div>
@@ -43,10 +32,6 @@
 
 <script setup>
 import { ref, inject, watch } from 'vue'
-// 通用模块
-import common from '@/common'
-// 地图
-import map from '@/common/map/index.js'
 
 defineProps({
   // 是否折叠地图信息面板
@@ -69,9 +54,6 @@ const bestScale = ref(20000)
 
 const emit = defineEmits(['click-fold', 'map-set-view-scale'])
 
-const { dispatchMapEvent } = common()
-const { mapCenterPoint } = map()
-
 watch(
   () => basemap.value,
   (val) => {
@@ -82,23 +64,6 @@ watch(
 // 收起面板
 const setContentVisible = (val) => {
   emit('click-fold', val)
-}
-
-// 设置当前比例
-const setScale = (scale) => {
-  emit('map-set-view-scale', { scale: Math.round(scale) })
-}
-
-const onLocateToNanning = () => {
-  dispatchMapEvent('onLocateToExtent', {
-    extent: {
-      center: mapCenterPoint,
-      tilt: 0,
-      heading: 0,
-      zoom: 10
-    },
-    params: { duration: 3000, showMessage: true }
-  })
 }
 </script>
 

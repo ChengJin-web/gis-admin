@@ -19,9 +19,10 @@
 </template>
 
 <script setup>
-import common from '@/common'
+import { useMapStore } from '@/store'
 import { computed } from 'vue'
 import UtilPanel from '@/components/common/UtilPanel/index.vue'
+import screenshotPanel from '@/common/mapEvents/modules/screenshotPanel.js'
 
 const props = defineProps({
   // 面板
@@ -44,7 +45,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const { mapStore, dispatchMapEvent } = common()
+const mapStore = useMapStore()
 
 //  获取顶级组件传递的值：是否开启截图
 const startScreenshot = computed(() => mapStore.startScreenshot)
@@ -66,7 +67,7 @@ const onClose = () => {
 // 开启截图
 const onStartScreenshot = () => {
   mapStore.setStartScreenshot(true)
-  dispatchMapEvent('onScreenShot')
+  screenshotPanel.onScreenShot()
 }
 </script>
 <style lang="scss">

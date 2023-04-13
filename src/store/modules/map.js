@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 const useMapStore = defineStore('map', {
   state: () => ({
+    view: null,
     // 地图操作事件
     mapEvent: [
       // {
@@ -19,6 +20,9 @@ const useMapStore = defineStore('map', {
     startScreenshot: false
   }),
   actions: {
+    setView(view) {
+      this.view = view
+    },
     changeMapEvent(mapEvent) {
       this.mapEvent = mapEvent
     },

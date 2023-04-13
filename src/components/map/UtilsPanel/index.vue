@@ -82,13 +82,18 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { ref, inject, nextTick } from 'vue'
+import { ref, inject, nextTick, toRaw, computed } from 'vue'
 // 通用模块
-import common from '@/common'
 import utilsPanel from '@/common/utilsPanel.js'
+import { useMapStore } from '@/store'
 
-const { store, dispatchMapEvent } = common()
-const { isUtilDisabled, isUtilActive } = utilsPanel()
+import drawPanel from '@/common/mapEvents/modules/drawPanel.js'
+import clear from '@/common/mapEvents/modules/clear.js'
+
+const mapStore = useMapStore()
+const view = toRaw(computed(() => mapStore.view))
+
+const { isUtilActive } = utilsPanel()
 
 // 获取顶级组件传递的值：当前地图视图是2D或者3D
 const mapViewType = inject('getMapViewType')
@@ -220,11 +225,6 @@ const utilList = ref([
 // 高亮面板
 const highlightPanels = ref([])
 
-// // 自定义工具弹窗
-// const customUtilDialog = reactive({
-//   visible: false
-// })
-
 /**
  * 工具点击事件
  * @param panel 面板对象
@@ -232,14 +232,11 @@ const highlightPanels = ref([])
  * @param panelID 工具应添加容器的ID
  */
 const onClickUtil = (panel, eventSuffix, panelID) => {
-  const { enable2D, enable3D, component } = panel
-
-  // 禁止操作
-  if (isUtilDisabled(enable2D, enable3D, mapViewType.value)) {
-    return false
-  }
+  const { component } = panel
 
   const index = panelList.value.findIndex((e) => e.component === component)
+
+  // 设置面板可见性
   setPanelVisble(panel, index, !panelList.value[index].utilActive)
 
   handleUtilPanelEvent(panelList.value[index].utilActive, eventSuffix, panelID)
@@ -250,24 +247,13 @@ const onClickUtilBoxUtils = ({ panel, eventSuffix, panelID }) => {
   onClickUtil(panel, eventSuffix, panelID)
 }
 
-// 自定义工具栏可见性
-// @click-custom="setCustomUtilDialogVisible(true)"
-// const setCustomUtilDialogVisible = (val) => {
-//   customUtilDialog.visible = val
-// }
-
 // 设置样式
-const setClassStyles = ({ enable2D, enable3D, component }) => {
+const setClassStyles = ({ component }) => {
   let classStyles = 'util-list-item'
-
-  if (isUtilDisabled(enable2D, enable3D, mapViewType.value)) {
-    classStyles += ' is-disabled'
-  }
 
   if (isUtilActive(highlightPanels.value, component)) {
     classStyles += ' is-active'
   }
-
   return classStyles
 }
 
@@ -297,12 +283,6 @@ const handleHighlightPanels = (panel, utilActive) => {
   }
 }
 
-// 当前面板是否高亮
-// const isHighlightPanel = (panel) => {
-//   const index = highlightPanels.value.findIndex((e) => e.component === panel.component)
-//   return index >= 0
-// }
-
 /**
  * 处理工具面板展开或者收起
  * @param panel 面板对象
@@ -310,46 +290,34 @@ const handleHighlightPanels = (panel, utilActive) => {
  * @param panelID 工具应添加容器的ID
  */
 const handleUtilPanelEvent = (utilActive, eventSuffix, panelID) => {
-  if (eventSuffix) {
+  if (eventSuffix == 'Draw') {
     nextTick(() => {
-      dispatchMapEvent([
-        {
-          event: utilActive ? `onOpen${eventSuffix}` : `onRemove${eventSuffix}`,
-          data: {
-            panelID,
-            store
-          }
-        }
-      ])
+      if (utilActive) {
+        drawPanel[`onOpen${eventSuffix}`](toRaw(view.value), {
+          panelID
+        })
+      } else {
+        drawPanel[`onRemove${eventSuffix}`](toRaw(view.value), {
+          panelID
+        })
+      }
     })
   }
 }
 
 // 清屏
 const onClearScreen = () => {
-  const events = []
-  const data = {
-    store
-  }
-
   panelList.value.forEach((e) => {
     if (e.utilActive && e.eventSuffix) {
       e.utilActive = false
-      events.push({
-        event: `onRemove${e.eventSuffix}`,
-        data
-      })
       // 取消高亮
       handleHighlightPanels(e, false)
     }
   })
 
-  events.push({
-    event: 'onClearScreen',
-    data
+  clear.onClearScreen(toRaw(view.value), {
+    mapStore
   })
-
-  dispatchMapEvent(events)
 }
 
 // 点击关闭按钮关闭面板
